@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "892267436244",
+    "project_id": "ventettatori-asilapp",
+    "storage_bucket": "ventettatori-asilapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892267436244:android:85b614081a45b6702dc341",
+        "android_client_info": {
+          "package_name": "com.vendettatori.asilapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2XLemZA0O62VC4vAjOp3V4z6v5Xgf3yE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
