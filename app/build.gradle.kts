@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.asilapp"
+    namespace = "com.vendettatori.asilapp"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.asilapp"
+        applicationId = "com.vendettatori.asilapp"
         minSdk = 28
         targetSdk = 33
         versionCode = 1

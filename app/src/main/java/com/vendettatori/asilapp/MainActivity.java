@@ -1,4 +1,4 @@
-package com.example.asilapp;
+package com.vendettatori.asilapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
