@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,17 +49,31 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button buttonConfirm = view.findViewById(R.id.button);
+        Button buttonConfirm = view.findViewById(R.id.confButtonRegister);
+
+        EditText emailInput = view.findViewById(R.id.emailRegister);
+        EditText passwordInput = view.findViewById(R.id.passwordRegister);
+        EditText passwordConfInput = view.findViewById(R.id.passwordConfRegister);
 
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onConfirmRegister();
+                if(emailInput.getText().toString() != "" && passwordInput.getText().toString() != "" && passwordConfInput.getText().toString() != "") {
+                    if (passwordInput.getText().toString().equals(passwordConfInput.getText().toString())) {
+                        onConfirmRegister(emailInput.getText().toString(), passwordInput.getText().toString());
+                    } else {
+                        Toast.makeText(getContext(), "The password must be the same", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(getContext(), "Fields must be filled", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    public void onConfirmRegister() {
+    public void onConfirmRegister(String email, String password) {
+        Toast.makeText(getContext(), "Registered with " + email + " and password " + password, Toast.LENGTH_SHORT).show();
         navController.navigate(R.id.action_registerFragment_to_loginFragment);
     }
 }

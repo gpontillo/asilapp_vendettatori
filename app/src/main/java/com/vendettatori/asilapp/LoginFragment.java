@@ -13,7 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.concurrent.Callable;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +52,7 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Button buttonLogin = view.findViewById(R.id.confloginButtonLogin);
         Button buttonRegister = view.findViewById(R.id.registerButtonLogin);
+        TextView textGuest = view.findViewById(R.id.guestText);
 
         EditText emailInput = view.findViewById(R.id.emailLogin);
         EditText passwordInput = view.findViewById(R.id.passwordLogin);
@@ -56,25 +60,36 @@ public class LoginFragment extends Fragment {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onLogin(emailInput.getText().toString(), passwordInput.getText().toString());
+                if(emailInput.getText().toString() != "" && passwordInput.getText().toString() != "") {
+                    onLogin(emailInput.getText().toString(), passwordInput.getText().toString());
+                }
+                else {
+                    Toast.makeText(getContext(), "Fields must be filled", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onRegister();
+                navController.navigate(R.id.action_loginFragment_to_registerFragment);
+            }
+        });
+
+        textGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLoginAsGuest();
             }
         });
 
     }
 
     public void onLogin(String email, String password) {
-        Toast.makeText(this.getContext(),"Logged with \"" + email + "\" and password \"" + password + "\"", Toast.LENGTH_SHORT).show();
-        navController.navigate(R.id.action_loginFragment_to_homeFragment);
+        ((MainActivity) getActivity()).loginFirebase(email, password);
     }
 
-    public void onRegister() {
-        navController.navigate(R.id.action_loginFragment_to_registerFragment);
+    public void onLoginAsGuest() {
+        ((MainActivity) getActivity()).loginGuest();
     }
 }
