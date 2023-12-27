@@ -22,6 +22,9 @@ import android.widget.Toast;
  */
 public class RegisterFragment extends Fragment {
     NavController navController;
+    EditText emailInput;
+    EditText passwordInput;
+    EditText passwordConfInput;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -49,22 +52,31 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Button buttonConfirm = view.findViewById(R.id.confButtonRegister);
 
-        EditText emailInput = view.findViewById(R.id.emailRegister);
-        EditText passwordInput = view.findViewById(R.id.passwordRegister);
-        EditText passwordConfInput = view.findViewById(R.id.passwordConfRegister);
+        emailInput = view.findViewById(R.id.emailRegister);
+        passwordInput = view.findViewById(R.id.passwordRegister);
+        passwordConfInput = view.findViewById(R.id.passwordConfRegister);
 
         buttonConfirm.setOnClickListener(v -> {
-            if(!emailInput.getText().toString().equals("") && !passwordInput.getText().toString().equals("") && !passwordConfInput.getText().toString().equals("")) {
-                if (passwordInput.getText().toString().equals(passwordConfInput.getText().toString())) {
-                    onConfirmRegister(emailInput.getText().toString(), passwordInput.getText().toString());
-                } else {
-                    Toast.makeText(getContext(), "The password must be the same", Toast.LENGTH_SHORT).show();
-                }
-            }
-            else {
-                Toast.makeText(getContext(), "Fields must be filled", Toast.LENGTH_SHORT).show();
+            if(validateForm()) {
+                onConfirmRegister(emailInput.getText().toString(), passwordInput.getText().toString());
             }
         });
+    }
+
+    public boolean validateForm() {
+        if(emailInput != null && passwordInput != null && passwordConfInput != null) {
+            if(emailInput.getText().toString().equals(""))
+                emailInput.setError("Email can't be empty");
+            else if(passwordInput.getText().toString().equals(""))
+                passwordInput.setError("Password can't be empty");
+            else if(passwordConfInput.getText().toString().equals(""))
+                passwordConfInput.setError("Confirm password can't be empty");
+            else if(!passwordInput.getText().toString().equals(passwordConfInput.getText().toString()))
+                passwordConfInput.setError("The password must be the same");
+            else
+                return true;
+        }
+        return false;
     }
 
     public void onConfirmRegister(String email, String password) {

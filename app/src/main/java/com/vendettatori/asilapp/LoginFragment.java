@@ -23,6 +23,8 @@ import android.widget.Toast;
  */
 public class LoginFragment extends Fragment {
     NavController navController;
+    EditText emailInput;
+    EditText passwordInput;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -51,15 +53,12 @@ public class LoginFragment extends Fragment {
         Button buttonRegister = view.findViewById(R.id.registerButtonLogin);
         TextView textGuest = view.findViewById(R.id.guestText);
 
-        EditText emailInput = view.findViewById(R.id.emailLogin);
-        EditText passwordInput = view.findViewById(R.id.passwordLogin);
+        emailInput = view.findViewById(R.id.emailLogin);
+        passwordInput = view.findViewById(R.id.passwordLogin);
 
         buttonLogin.setOnClickListener(v -> {
-            if(!emailInput.getText().toString().equals("") && !passwordInput.getText().toString().equals("")) {
+            if(validateForm()) {
                 onLogin(emailInput.getText().toString(), passwordInput.getText().toString());
-            }
-            else {
-                Toast.makeText(getContext(), "Fields must be filled", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -67,6 +66,18 @@ public class LoginFragment extends Fragment {
 
         textGuest.setOnClickListener(v -> onLoginAsGuest());
 
+    }
+
+    public boolean validateForm() {
+        if(emailInput != null && passwordInput != null) {
+            if(emailInput.getText().toString().equals(""))
+                emailInput.setError("Email can't be empty");
+            else if(passwordInput.getText().toString().equals(""))
+                passwordInput.setError("Password can't be empty");
+            else
+                return true;
+        }
+        return false;
     }
 
     public void onLogin(String email, String password) {
