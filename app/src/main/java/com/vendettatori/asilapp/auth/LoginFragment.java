@@ -75,8 +75,6 @@ public class LoginFragment extends Fragment {
         if(emailInput != null && passwordInput != null) {
             if(emailInput.getText().toString().equals(""))
                 emailInput.setError("Email can't be empty");
-            else if(InputUtils.isValidEmail(emailInput.getText()))
-                emailInput.setError("Invalid email");
             else if(passwordInput.getText().toString().equals(""))
                 passwordInput.setError("Password can't be empty");
             else

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.vendettatori.asilapp.MainActivity;
 import com.vendettatori.asilapp.R;
 import com.vendettatori.asilapp.utils.InputUtils;
 
@@ -70,10 +71,12 @@ public class RegisterFragment extends Fragment {
         if(emailInput != null && passwordInput != null && passwordConfInput != null) {
             if(emailInput.getText().toString().equals(""))
                 emailInput.setError("Email can't be empty");
-            else if(InputUtils.isValidEmail(emailInput.getText()))
-                emailInput.setError("Invalid email");
+            //else if(InputUtils.isValidEmail(emailInput.getText().toString()))
+            //    emailInput.setError("Invalid email");
             else if(passwordInput.getText().toString().equals(""))
                 passwordInput.setError("Password can't be empty");
+            else if(passwordInput.getText().toString().length() < 6)
+                passwordInput.setError("Password must be 6 characters");
             else if(passwordConfInput.getText().toString().equals(""))
                 passwordConfInput.setError("Confirm password can't be empty");
             else if(!passwordInput.getText().toString().equals(passwordConfInput.getText().toString()))
@@ -85,7 +88,6 @@ public class RegisterFragment extends Fragment {
     }
 
     public void onConfirmRegister(String email, String password) {
-        Toast.makeText(getContext(), "Registered with " + email + " and password " + password, Toast.LENGTH_SHORT).show();
-        navController.navigate(R.id.action_registerFragment_to_loginFragment);
+        ((MainActivity) getActivity()).registerUser(email, password);
     }
 }
