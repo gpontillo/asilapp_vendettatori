@@ -1,4 +1,4 @@
-package com.vendettatori.asilapp;
+package com.vendettatori.asilapp.auth;
 
 import android.os.Bundle;
 
@@ -14,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.vendettatori.asilapp.MainActivity;
+import com.vendettatori.asilapp.R;
+import com.vendettatori.asilapp.utils.InputUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,6 +75,8 @@ public class LoginFragment extends Fragment {
         if(emailInput != null && passwordInput != null) {
             if(emailInput.getText().toString().equals(""))
                 emailInput.setError("Email can't be empty");
+            else if(InputUtils.isValidEmail(emailInput.getText()))
+                emailInput.setError("Invalid email");
             else if(passwordInput.getText().toString().equals(""))
                 passwordInput.setError("Password can't be empty");
             else
