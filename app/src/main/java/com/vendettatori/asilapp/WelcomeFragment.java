@@ -21,8 +21,7 @@ public class WelcomeFragment extends Fragment {
     }
 
     public static WelcomeFragment newInstance() {
-        WelcomeFragment fragment = new WelcomeFragment();
-        return fragment;
+        return new WelcomeFragment();
     }
 
     @Override

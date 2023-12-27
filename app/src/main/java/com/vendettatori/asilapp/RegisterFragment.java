@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +27,8 @@ public class RegisterFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static RegisterFragment newInstance(String param1, String param2) {
-        RegisterFragment fragment = new RegisterFragment();
-        return fragment;
+    public static RegisterFragment newInstance() {
+        return new RegisterFragment();
     }
 
     @Override
@@ -55,19 +53,16 @@ public class RegisterFragment extends Fragment {
         EditText passwordInput = view.findViewById(R.id.passwordRegister);
         EditText passwordConfInput = view.findViewById(R.id.passwordConfRegister);
 
-        buttonConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(emailInput.getText().toString() != "" && passwordInput.getText().toString() != "" && passwordConfInput.getText().toString() != "") {
-                    if (passwordInput.getText().toString().equals(passwordConfInput.getText().toString())) {
-                        onConfirmRegister(emailInput.getText().toString(), passwordInput.getText().toString());
-                    } else {
-                        Toast.makeText(getContext(), "The password must be the same", Toast.LENGTH_SHORT).show();
-                    }
+        buttonConfirm.setOnClickListener(v -> {
+            if(!emailInput.getText().toString().equals("") && !passwordInput.getText().toString().equals("") && !passwordConfInput.getText().toString().equals("")) {
+                if (passwordInput.getText().toString().equals(passwordConfInput.getText().toString())) {
+                    onConfirmRegister(emailInput.getText().toString(), passwordInput.getText().toString());
+                } else {
+                    Toast.makeText(getContext(), "The password must be the same", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    Toast.makeText(getContext(), "Fields must be filled", Toast.LENGTH_SHORT).show();
-                }
+            }
+            else {
+                Toast.makeText(getContext(), "Fields must be filled", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -16,8 +16,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.concurrent.Callable;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LoginFragment#newInstance} factory method to
@@ -31,8 +29,7 @@ public class LoginFragment extends Fragment {
     }
 
     public static LoginFragment newInstance() {
-        LoginFragment fragment = new LoginFragment();
-        return fragment;
+        return new LoginFragment();
     }
 
     @Override
@@ -57,31 +54,18 @@ public class LoginFragment extends Fragment {
         EditText emailInput = view.findViewById(R.id.emailLogin);
         EditText passwordInput = view.findViewById(R.id.passwordLogin);
 
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(emailInput.getText().toString() != "" && passwordInput.getText().toString() != "") {
-                    onLogin(emailInput.getText().toString(), passwordInput.getText().toString());
-                }
-                else {
-                    Toast.makeText(getContext(), "Fields must be filled", Toast.LENGTH_SHORT).show();
-                }
+        buttonLogin.setOnClickListener(v -> {
+            if(!emailInput.getText().toString().equals("") && !passwordInput.getText().toString().equals("")) {
+                onLogin(emailInput.getText().toString(), passwordInput.getText().toString());
+            }
+            else {
+                Toast.makeText(getContext(), "Fields must be filled", Toast.LENGTH_SHORT).show();
             }
         });
 
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navController.navigate(R.id.action_loginFragment_to_registerFragment);
-            }
-        });
+        buttonRegister.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_registerFragment));
 
-        textGuest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onLoginAsGuest();
-            }
-        });
+        textGuest.setOnClickListener(v -> onLoginAsGuest());
 
     }
 
