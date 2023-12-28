@@ -73,7 +73,12 @@ public class MainActivity extends AppCompatActivity {
         else if(id == R.id.action_logout) {
             mAuth.signOut();
             currentUser = null;
-            navController.navigate(R.id.loginFragment);
+            navController.navigate(R.id.loginFragment, null, new NavOptions.Builder()
+                    .setEnterAnim(android.R.animator.fade_in)
+                    .setExitAnim(android.R.animator.fade_out)
+                    .setPopUpTo(R.id.navigator_graph, true)
+                    .build()
+            );
             return true;
         }
         else
