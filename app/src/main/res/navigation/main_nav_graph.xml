@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.vendettatori.asilapp.auth.LoginFragment"
-        android:label="fragment_login"
+        android:label=""
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.vendettatori.asilapp.auth.RegisterFragment"
-        android:label="fragment_register"
+        android:label=""
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"

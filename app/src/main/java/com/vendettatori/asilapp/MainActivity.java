@@ -24,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.concurrent.Callable;
+
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -89,9 +91,14 @@ public class MainActivity extends AppCompatActivity {
         return currentUser != null;
     }
 
-    public void loginFirebase(String email, String password) {
+    public void loginFirebase(String email, String password, Callable<Void> methodParam) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
+                        try {
+                            methodParam.call();
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             currentUser = mAuth.getCurrentUser();
@@ -107,9 +114,14 @@ public class MainActivity extends AppCompatActivity {
                 );
     }
 
-    public void loginGuest() {
+    public void loginGuest(Callable<Void> methodParam) {
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, task -> {
+                    try {
+                        methodParam.call();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         currentUser = mAuth.getCurrentUser();
@@ -126,9 +138,14 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void registerUser(String email, String password) {
+    public void registerUser(String email, String password, Callable<Void> methodParam) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
+                    try {
+                        methodParam.call();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d("REGISTER", "createUserWithEmail:success");

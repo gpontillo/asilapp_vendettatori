@@ -1,5 +1,6 @@
 package com.vendettatori.asilapp.auth;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,8 +32,13 @@ import com.vendettatori.asilapp.R;
  */
 public class LoginFragment extends Fragment {
     NavController navController;
+    boolean loading = false;
     TextInputLayout emailInput;
     TextInputLayout passwordInput;
+    Button buttonLogin;
+    Button buttonRegister;
+    TextView textGuest;
+    ProgressBar loader;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -49,6 +56,7 @@ public class LoginFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
@@ -56,9 +64,12 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button buttonLogin = view.findViewById(R.id.confloginButtonLogin);
-        Button buttonRegister = view.findViewById(R.id.registerButtonLogin);
-        TextView textGuest = view.findViewById(R.id.guestText);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        buttonLogin = view.findViewById(R.id.confloginButtonLogin);
+        buttonRegister = view.findViewById(R.id.registerButtonLogin);
+        textGuest = view.findViewById(R.id.guestText);
+
+        loader = view.findViewById(R.id.progressBarLogin);
 
         emailInput = view.findViewById(R.id.emailLayoutLogin);
         passwordInput = view.findViewById(R.id.passwordLayoutLogin);
@@ -105,12 +116,6 @@ public class LoginFragment extends Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-    }
-
     public boolean validateForm() {
         if(emailInput != null && passwordInput != null) {
             String email = emailInput.getEditText().getText().toString();
@@ -127,11 +132,35 @@ public class LoginFragment extends Fragment {
     }
 
     public void onLogin(String email, String password) {
-        ((MainActivity) getActivity()).loginFirebase(email, password);
+        toggleLoading();
+        ((MainActivity) getActivity()).loginFirebase(email, password, () -> {
+            toggleLoading();
+            return null;
+        });
     }
 
     public void onLoginAsGuest() {
-        ((MainActivity) getActivity()).loginGuest();
+        toggleLoading();
+        ((MainActivity) getActivity()).loginGuest(() -> {
+            toggleLoading();
+            return null;
+        });
+    }
+
+    public void toggleLoading() {
+        loading = !loading;
+        if(loading) {
+            buttonLogin.setVisibility(View.INVISIBLE);
+            buttonRegister.setVisibility(View.INVISIBLE);
+            textGuest.setVisibility(View.INVISIBLE);
+            loader.setVisibility(View.VISIBLE);
+        }
+        else {
+            buttonLogin.setVisibility(View.VISIBLE);
+            buttonRegister.setVisibility(View.VISIBLE);
+            textGuest.setVisibility(View.VISIBLE);
+            loader.setVisibility(View.GONE);
+        }
     }
 
     @Override

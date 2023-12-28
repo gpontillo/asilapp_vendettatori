@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -31,9 +32,12 @@ import com.vendettatori.asilapp.utils.InputUtils;
  */
 public class RegisterFragment extends Fragment {
     NavController navController;
+    boolean loading = false;
     TextInputLayout emailInput;
     TextInputLayout passwordInput;
     TextInputLayout passwordConfInput;
+    Button buttonConfirm;
+    ProgressBar loader;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -59,7 +63,11 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button buttonConfirm = view.findViewById(R.id.confButtonRegister);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+
+        buttonConfirm = view.findViewById(R.id.confButtonRegister);
+
+        loader = view.findViewById(R.id.progressBarRegister);
 
         emailInput = view.findViewById(R.id.emailLayoutRegister);
         passwordInput = view.findViewById(R.id.passwordLayoutRegister);
@@ -119,12 +127,6 @@ public class RegisterFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-    }
-
     public boolean validateForm() {
         if(emailInput != null && passwordInput != null && passwordConfInput != null) {
             String email = emailInput.getEditText().getText().toString();
@@ -146,7 +148,23 @@ public class RegisterFragment extends Fragment {
     }
 
     public void onConfirmRegister(String email, String password) {
-        ((MainActivity) getActivity()).registerUser(email, password);
+        toggleLoading();
+        ((MainActivity) getActivity()).registerUser(email, password, () -> {
+            toggleLoading();
+            return null;
+        });
+    }
+
+    public void toggleLoading() {
+        loading = !loading;
+        if(loading) {
+            buttonConfirm.setVisibility(View.INVISIBLE);
+            loader.setVisibility(View.VISIBLE);
+        }
+        else {
+            buttonConfirm.setVisibility(View.VISIBLE);
+            loader.setVisibility(View.GONE);
+        }
     }
 
     @Override
