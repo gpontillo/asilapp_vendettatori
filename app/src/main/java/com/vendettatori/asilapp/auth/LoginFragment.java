@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -71,6 +72,12 @@ public class LoginFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+    }
+
     public boolean validateForm() {
         if(emailInput != null && passwordInput != null) {
             if(emailInput.getText().toString().equals(""))
@@ -89,5 +96,11 @@ public class LoginFragment extends Fragment {
 
     public void onLoginAsGuest() {
         ((MainActivity) getActivity()).loginGuest();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }
