@@ -4,4 +4,5 @@
     <string name="registerTitle">Register</string>
     <string name="confirm_passwordText">Confirm password</string>
     <string name="confirm_passwordInput">Confirm password</string>
+    <string name="passwordConfText">Confirm password</string>
 </resources>

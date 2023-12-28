@@ -7,17 +7,6 @@
     tools:context=".auth.LoginFragment">
 
     <TextView
-        android:id="@+id/passwordLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="@string/passwordText"
-        app:layout_constraintBottom_toTopOf="@+id/passwordLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailLogin"
-        app:layout_constraintVertical_bias="0.8" />
-
-    <TextView
         android:id="@+id/titleLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,55 +16,66 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintVertical_bias="0.40" />
 
-    <TextView
-        android:id="@+id/emailLabel"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailLayoutLogin"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="@string/emailText"
-        app:layout_constraintBottom_toTopOf="@+id/emailLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleLogin"
-        app:layout_constraintVertical_bias="0.8" />
-
-    <EditText
-        android:id="@+id/emailLogin"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="20dp"
-        android:autofillHints="emailAddress"
-        android:ems="10"
-        android:hint="@string/emailInput"
+        android:hint="@string/emailText"
         android:inputType="textEmailAddress"
-        android:textColorHint="#8D6E63"
-        app:layout_constraintBottom_toTopOf="@+id/passwordLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/titleLogin"
+        app:startIconDrawable="@drawable/email_24"
+        android:autofillHints="emailAddress"
+        app:placeholderText="@string/emailInput"
+        app:errorEnabled="true">
 
-    <EditText
-        android:id="@+id/passwordLogin"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="emailAddress" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordLayoutLogin"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:hint="@string/passwordInput"
+        android:hint="@string/passwordText"
         android:inputType="textPassword"
+        app:endIconMode="password_toggle"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/confloginButtonLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailLogin"
-        android:autofillHints="password"/>
+        app:layout_constraintTop_toBottomOf="@+id/emailLayoutLogin"
+        app:layout_constraintVertical_bias="0.39"
+        app:startIconDrawable="@drawable/password_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="password"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/confloginButtonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="250dp"
         android:text="@string/loginButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,9 +84,10 @@
 
     <Button
         android:id="@+id/registerButtonLogin"
+        style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="250dp"
         android:text="@string/registerButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/confloginButtonLogin"
@@ -106,5 +107,19 @@
         app:layout_constraintHorizontal_bias="0.778"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confloginButtonLogin" />
+
+    <ProgressBar
+        android:id="@+id/progressBarLogin"
+        style="?android:attr/progressBarStyle"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLayoutLogin"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.vendettatori.asilapp.auth.LoginFragment"
-        android:label="fragment_login"
+        android:label=""
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -16,9 +16,7 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/navigator_graph"
-            app:popUpToInclusive="true" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -32,7 +30,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.vendettatori.asilapp.auth.RegisterFragment"
-        android:label="fragment_register"
+        android:label=""
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
@@ -45,7 +43,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.vendettatori.asilapp.HomeFragment"
-        android:label="fragment_home"
+        android:label="Home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/welcomeFragment"
@@ -71,4 +69,5 @@
             app:popUpTo="@+id/navigator_graph"
             app:popUpToInclusive="true" />
     </fragment>
+    <include app:graph="@navigation/profile_nav_graph" />
 </navigation>

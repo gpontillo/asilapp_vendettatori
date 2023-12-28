@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import android.util.Patterns;
 
 public class InputUtils {
-    public static boolean isValidEmail(CharSequence target) {
+    public static boolean isValidEmail(String target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 }

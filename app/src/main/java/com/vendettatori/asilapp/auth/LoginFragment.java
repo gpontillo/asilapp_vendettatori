@@ -1,23 +1,29 @@
 package com.vendettatori.asilapp.auth;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.vendettatori.asilapp.MainActivity;
 import com.vendettatori.asilapp.R;
-import com.vendettatori.asilapp.utils.InputUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,8 +32,13 @@ import com.vendettatori.asilapp.utils.InputUtils;
  */
 public class LoginFragment extends Fragment {
     NavController navController;
-    EditText emailInput;
-    EditText passwordInput;
+    boolean loading = false;
+    TextInputLayout emailInput;
+    TextInputLayout passwordInput;
+    Button buttonLogin;
+    Button buttonRegister;
+    TextView textGuest;
+    ProgressBar loader;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -45,6 +56,7 @@ public class LoginFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
@@ -52,16 +64,21 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button buttonLogin = view.findViewById(R.id.confloginButtonLogin);
-        Button buttonRegister = view.findViewById(R.id.registerButtonLogin);
-        TextView textGuest = view.findViewById(R.id.guestText);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        buttonLogin = view.findViewById(R.id.confloginButtonLogin);
+        buttonRegister = view.findViewById(R.id.registerButtonLogin);
+        textGuest = view.findViewById(R.id.guestText);
 
-        emailInput = view.findViewById(R.id.emailLogin);
-        passwordInput = view.findViewById(R.id.passwordLogin);
+        loader = view.findViewById(R.id.progressBarLogin);
+
+        emailInput = view.findViewById(R.id.emailLayoutLogin);
+        passwordInput = view.findViewById(R.id.passwordLayoutLogin);
 
         buttonLogin.setOnClickListener(v -> {
             if(validateForm()) {
-                onLogin(emailInput.getText().toString(), passwordInput.getText().toString());
+                String email = emailInput.getEditText().getText().toString();
+                String password = passwordInput.getEditText().getText().toString();
+                onLogin(email, password);
             }
         });
 
@@ -69,27 +86,86 @@ public class LoginFragment extends Fragment {
 
         textGuest.setOnClickListener(v -> onLoginAsGuest());
 
+        emailInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                emailInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        passwordInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passwordInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
     }
 
     public boolean validateForm() {
         if(emailInput != null && passwordInput != null) {
-            if(emailInput.getText().toString().equals(""))
-                emailInput.setError("Email can't be empty");
-            else if(InputUtils.isValidEmail(emailInput.getText()))
-                emailInput.setError("Invalid email");
-            else if(passwordInput.getText().toString().equals(""))
-                passwordInput.setError("Password can't be empty");
-            else
-                return true;
+            String email = emailInput.getEditText().getText().toString();
+            String password = passwordInput.getEditText().getText().toString();
+
+            if(TextUtils.isEmpty(email))
+                emailInput.setError("Email is required");
+            if(TextUtils.isEmpty(password))
+                passwordInput.setError("Password is required");
+
+            return emailInput.getError() == null && passwordInput.getError() == null;
         }
         return false;
     }
 
     public void onLogin(String email, String password) {
-        ((MainActivity) getActivity()).loginFirebase(email, password);
+        toggleLoading();
+        ((MainActivity) getActivity()).loginFirebase(email, password, () -> {
+            toggleLoading();
+            return null;
+        });
     }
 
     public void onLoginAsGuest() {
-        ((MainActivity) getActivity()).loginGuest();
+        toggleLoading();
+        ((MainActivity) getActivity()).loginGuest(() -> {
+            toggleLoading();
+            return null;
+        });
+    }
+
+    public void toggleLoading() {
+        loading = !loading;
+        if(loading) {
+            buttonLogin.setVisibility(View.INVISIBLE);
+            buttonRegister.setVisibility(View.INVISIBLE);
+            textGuest.setVisibility(View.INVISIBLE);
+            loader.setVisibility(View.VISIBLE);
+        }
+        else {
+            buttonLogin.setVisibility(View.VISIBLE);
+            buttonRegister.setVisibility(View.VISIBLE);
+            textGuest.setVisibility(View.VISIBLE);
+            loader.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }
