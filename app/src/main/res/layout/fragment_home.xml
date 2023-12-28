@@ -10,7 +10,7 @@
         android:id="@+id/row1"
         android:layout_width="0dp"
         android:layout_height="175dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
                     android:layout_marginTop="10dp"
                     android:text="Dati Anagrafici"
                     android:textColor="@color/lavender"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/AnagraficiImage"
@@ -73,7 +73,7 @@
                     android:layout_marginTop="10dp"
                     android:text="Parametri Medici"
                     android:textColor="@color/lavender"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/MediciImage"
@@ -153,7 +153,7 @@
                     android:layout_marginTop="10dp"
                     android:text="Gestione Spese"
                     android:textColor="@color/lavender"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/SpeseImage"
