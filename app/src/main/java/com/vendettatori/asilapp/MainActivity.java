@@ -2,7 +2,9 @@ package com.vendettatori.asilapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -11,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -48,7 +51,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_app_bar, menu);
+        if(menu instanceof MenuBuilder){
+            MenuBuilder m = (MenuBuilder) menu;
+            //noinspection RestrictedApi
+            m.setOptionalIconsVisible(true);
+        }
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_profile) {
+            navController.navigate(R.id.profile_nav_graph, null, new NavOptions.Builder()
+                    .setEnterAnim(android.R.animator.fade_in)
+                    .setExitAnim(android.R.animator.fade_out)
+                    .build()
+            );
+            return true;
+        }
+        else if(id == R.id.action_logout) {
+            mAuth.signOut();
+            currentUser = null;
+            navController.navigate(R.id.loginFragment);
+            return true;
+        }
+        else
+            return super.onOptionsItemSelected(item);
     }
 
     public boolean isUserLogged() {

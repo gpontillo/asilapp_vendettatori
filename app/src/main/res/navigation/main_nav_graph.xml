@@ -69,4 +69,5 @@
             app:popUpTo="@+id/navigator_graph"
             app:popUpToInclusive="true" />
     </fragment>
+    <include app:graph="@navigation/profile_nav_graph" />
 </navigation>
