@@ -3,10 +3,10 @@ package com.vendettatori.asilapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -14,13 +14,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -44,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         currentUser = mAuth.getCurrentUser();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
+        Toolbar toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment).build();
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
@@ -53,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_app_bar, menu);
+        if(menu instanceof MenuBuilder){
+            MenuBuilder m = (MenuBuilder) menu;
+            //noinspection RestrictedApi
+            m.setOptionalIconsVisible(true);
+        }
         return true;
     }
 
