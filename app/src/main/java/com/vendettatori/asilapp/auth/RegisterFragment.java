@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.vendettatori.asilapp.MainActivity;
 import com.vendettatori.asilapp.R;
 import com.vendettatori.asilapp.utils.InputUtils;
@@ -27,9 +31,9 @@ import com.vendettatori.asilapp.utils.InputUtils;
  */
 public class RegisterFragment extends Fragment {
     NavController navController;
-    EditText emailInput;
-    EditText passwordInput;
-    EditText passwordConfInput;
+    TextInputLayout emailInput;
+    TextInputLayout passwordInput;
+    TextInputLayout passwordConfInput;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -57,13 +61,60 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Button buttonConfirm = view.findViewById(R.id.confButtonRegister);
 
-        emailInput = view.findViewById(R.id.emailRegister);
-        passwordInput = view.findViewById(R.id.passwordRegister);
-        passwordConfInput = view.findViewById(R.id.passwordConfRegister);
+        emailInput = view.findViewById(R.id.emailLayoutRegister);
+        passwordInput = view.findViewById(R.id.passwordLayoutRegister);
+        passwordConfInput = view.findViewById(R.id.passwordConfLayoutRegister);
 
         buttonConfirm.setOnClickListener(v -> {
             if(validateForm()) {
-                onConfirmRegister(emailInput.getText().toString(), passwordInput.getText().toString());
+                String email = emailInput.getEditText().getText().toString();
+                String password = passwordInput.getEditText().getText().toString();
+                onConfirmRegister(email, password);
+            }
+        });
+
+        emailInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                emailInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        passwordInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passwordInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        passwordConfInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passwordConfInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
     }
@@ -76,20 +127,20 @@ public class RegisterFragment extends Fragment {
 
     public boolean validateForm() {
         if(emailInput != null && passwordInput != null && passwordConfInput != null) {
-            if(emailInput.getText().toString().equals(""))
-                emailInput.setError("Email can't be empty");
-            //else if(InputUtils.isValidEmail(emailInput.getText().toString()))
-            //    emailInput.setError("Invalid email");
-            else if(passwordInput.getText().toString().equals(""))
-                passwordInput.setError("Password can't be empty");
-            else if(passwordInput.getText().toString().length() < 6)
+            String email = emailInput.getEditText().getText().toString();
+            String password = passwordInput.getEditText().getText().toString();
+            String passwordConf = passwordConfInput.getEditText().getText().toString();
+
+            if(!InputUtils.isValidEmail(email))
+                emailInput.setError("Invalid email");
+            if(TextUtils.isEmpty(password))
+                passwordInput.setError("Password is required");
+            else if(password.length() < 6)
                 passwordInput.setError("Password must be 6 characters");
-            else if(passwordConfInput.getText().toString().equals(""))
-                passwordConfInput.setError("Confirm password can't be empty");
-            else if(!passwordInput.getText().toString().equals(passwordConfInput.getText().toString()))
-                passwordConfInput.setError("The password must be the same");
-            else
-                return true;
+            if(TextUtils.isEmpty(passwordConf) || !passwordConf.equals(password))
+                passwordConfInput.setError("Passwords must be the same");
+
+            return emailInput.getError() == null && passwordInput.getError() == null && passwordConfInput.getError() == null;
         }
         return false;
     }

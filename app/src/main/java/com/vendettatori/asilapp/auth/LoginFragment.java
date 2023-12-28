@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +19,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.vendettatori.asilapp.MainActivity;
 import com.vendettatori.asilapp.R;
-import com.vendettatori.asilapp.utils.InputUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,8 +30,8 @@ import com.vendettatori.asilapp.utils.InputUtils;
  */
 public class LoginFragment extends Fragment {
     NavController navController;
-    EditText emailInput;
-    EditText passwordInput;
+    TextInputLayout emailInput;
+    TextInputLayout passwordInput;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -57,18 +60,48 @@ public class LoginFragment extends Fragment {
         Button buttonRegister = view.findViewById(R.id.registerButtonLogin);
         TextView textGuest = view.findViewById(R.id.guestText);
 
-        emailInput = view.findViewById(R.id.emailLogin);
-        passwordInput = view.findViewById(R.id.passwordLogin);
+        emailInput = view.findViewById(R.id.emailLayoutLogin);
+        passwordInput = view.findViewById(R.id.passwordLayoutLogin);
 
         buttonLogin.setOnClickListener(v -> {
             if(validateForm()) {
-                onLogin(emailInput.getText().toString(), passwordInput.getText().toString());
+                String email = emailInput.getEditText().getText().toString();
+                String password = passwordInput.getEditText().getText().toString();
+                onLogin(email, password);
             }
         });
 
         buttonRegister.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_registerFragment));
 
         textGuest.setOnClickListener(v -> onLoginAsGuest());
+
+        emailInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                emailInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        passwordInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passwordInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
     }
 
@@ -80,12 +113,15 @@ public class LoginFragment extends Fragment {
 
     public boolean validateForm() {
         if(emailInput != null && passwordInput != null) {
-            if(emailInput.getText().toString().equals(""))
-                emailInput.setError("Email can't be empty");
-            else if(passwordInput.getText().toString().equals(""))
-                passwordInput.setError("Password can't be empty");
-            else
-                return true;
+            String email = emailInput.getEditText().getText().toString();
+            String password = passwordInput.getEditText().getText().toString();
+
+            if(TextUtils.isEmpty(email))
+                emailInput.setError("Email is required");
+            if(TextUtils.isEmpty(password))
+                passwordInput.setError("Password is required");
+
+            return emailInput.getError() == null && passwordInput.getError() == null;
         }
         return false;
     }
