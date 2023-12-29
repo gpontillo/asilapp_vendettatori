@@ -1,4 +1,4 @@
-package com.vendettatori.asilapp.profile;
+package com.vendettatori.asilapp.user_pages;
 
 import android.os.Bundle;
 
@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.textfield.TextInputLayout;
 import com.vendettatori.asilapp.R;
 
 /**

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/parametriMediciFragment"
-        android:name="com.vendettatori.asilapp.parammedici.ParametriMediciFragment"
+        android:name="com.vendettatori.asilapp.param_medici.ParametriMediciFragment"
         android:label="fragment_parametri_medici"
         tools:layout="@layout/fragment_parametri_medici" />
 </navigation>

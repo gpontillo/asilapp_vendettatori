@@ -61,7 +61,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.action_profile) {
-            navController.navigate(R.id.profile_nav_graph, null, new NavOptions.Builder()
+            navController.navigate(R.id.profileFragment, null, new NavOptions.Builder()
+                    .setEnterAnim(android.R.animator.fade_in)
+                    .setExitAnim(android.R.animator.fade_out)
+                    .build()
+            );
+            return true;
+        }
+        else if(id == R.id.action_profile) {
+            navController.navigate(R.id.datiAnagraficiFragment, null, new NavOptions.Builder()
                     .setEnterAnim(android.R.animator.fade_in)
                     .setExitAnim(android.R.animator.fade_out)
                     .build()

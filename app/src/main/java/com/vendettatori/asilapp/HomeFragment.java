@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -79,21 +78,11 @@ public class HomeFragment extends Fragment {
         CardView gestioneDatiCard = (CardView) getView().findViewById(R.id.DatiCard);
 
         //Using Listener to set Navigation to each CardView
-        anagraficaCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_profile_nav_graph));
-
+        anagraficaCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_datiAnagraficiFragment));
         parametriCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_parametri_medici_nav_graph));
-
         infoCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_informazioni_nav_graph));
-
         gestioneSpeseCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_gestione_spese_nav_graph));
-
-        gestioneDatiCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_gestione_dati_nav_graph);
-            }
-        });
-
+        gestioneDatiCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_gestione_dati_nav_graph));
 
     }
 }

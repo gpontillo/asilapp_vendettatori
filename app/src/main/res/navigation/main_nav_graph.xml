@@ -74,8 +74,8 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/informazioni_nav_graph" />
         <action
-            android:id="@+id/action_homeFragment_to_profile_nav_graph"
-            app:destination="@id/profile_nav_graph"
+            android:id="@+id/action_homeFragment_to_datiAnagraficiFragment"
+            app:destination="@id/datiAnagraficiFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -105,9 +105,18 @@
             app:popUpTo="@+id/navigator_graph"
             app:popUpToInclusive="true" />
     </fragment>
-    <include app:graph="@navigation/profile_nav_graph" />
     <include app:graph="@navigation/parametri_medici_nav_graph" />
     <include app:graph="@navigation/gestione_spese_nav_graph" />
     <include app:graph="@navigation/gestione_dati_nav_graph" />
     <include app:graph="@navigation/informazioni_nav_graph" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.vendettatori.asilapp.user_pages.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/datiAnagraficiFragment"
+        android:name="com.vendettatori.asilapp.user_pages.DatiAnagraficiFragment"
+        android:label="Dati Anagrafici"
+        tools:layout="@layout/fragment_dati_personali" />
 </navigation>

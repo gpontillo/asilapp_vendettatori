@@ -1,4 +1,4 @@
-package com.vendettatori.asilapp.parammedici;
+package com.vendettatori.asilapp.param_medici;
 
 import android.os.Bundle;
 
