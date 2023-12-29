@@ -5,7 +5,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +70,53 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //Retriving CardView elements from layout by id
+        CardView anagraficaCard = (CardView) getView().findViewById(R.id.AnagraficiCard);
+        CardView parametriCard = (CardView) getView().findViewById(R.id.ParametriMediciCard);
+        CardView infoCard = (CardView) getView().findViewById(R.id.InfoCard);
+        CardView gestioneSpeseCard = (CardView) getView().findViewById(R.id.GestioneSpeseCard);
+        CardView gestioneDatiCard = (CardView) getView().findViewById(R.id.DatiCard);
+
+        //Using Listener to set Navigation to each CardView
+        anagraficaCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_anagrafica_nav_graph);
+            }
+        });
+
+        parametriCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_parametri_medici_nav_graph);
+            }
+        });
+
+        infoCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_informazioni_nav_graph);
+            }
+        });
+
+        gestioneSpeseCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_gestione_spese_nav_graph);
+            }
+        });
+
+        gestioneDatiCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_gestione_dati_nav_graph);
+            }
+        });
+
+
+
+
 
     }
 }

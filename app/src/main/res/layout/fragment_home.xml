@@ -53,6 +53,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/ParametriMediciCard"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -133,6 +134,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/GestioneSpeseCard"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
