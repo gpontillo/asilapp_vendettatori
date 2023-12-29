@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    //noinspection RestrictedApi
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_app_bar, menu);
         if(menu instanceof MenuBuilder){
