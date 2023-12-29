@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/gestioneSpeseFragment"
         android:name="com.vendettatori.asilapp.spese.GestioneSpeseFragment"
-        android:label="gestione_spese_fragment"
+        android:label="Gestione Spese"
         tools:layout="@layout/fragment_gestione_spese" />
 </navigation>
