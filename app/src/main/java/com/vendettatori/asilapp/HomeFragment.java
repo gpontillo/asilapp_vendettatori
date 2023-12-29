@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
         CardView gestioneDatiCard = (CardView) getView().findViewById(R.id.DatiCard);
 
         //Using Listener to set Navigation to each CardView
-        anagraficaCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_anagrafica_nav_graph));
+        anagraficaCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_profile_nav_graph));
 
         parametriCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_parametri_medici_nav_graph));
 

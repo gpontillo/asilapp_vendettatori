@@ -46,13 +46,6 @@
         android:label="Home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_anagrafica_nav_graph"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/anagrafica_nav_graph" />
-        <action
             android:id="@+id/action_homeFragment_to_parametri_medici_nav_graph"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
@@ -80,6 +73,13 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/informazioni_nav_graph" />
+        <action
+            android:id="@+id/action_homeFragment_to_profile_nav_graph"
+            app:destination="@id/profile_nav_graph"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
@@ -106,7 +106,6 @@
             app:popUpToInclusive="true" />
     </fragment>
     <include app:graph="@navigation/profile_nav_graph" />
-    <include app:graph="@navigation/anagrafica_nav_graph" />
     <include app:graph="@navigation/parametri_medici_nav_graph" />
     <include app:graph="@navigation/gestione_spese_nav_graph" />
     <include app:graph="@navigation/gestione_dati_nav_graph" />
