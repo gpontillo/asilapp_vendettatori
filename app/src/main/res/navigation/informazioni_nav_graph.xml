@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/informazioni_nav_graph"
+    app:startDestination="@id/informazioniFragment">
+
+    <fragment
+        android:id="@+id/informazioniFragment"
+        android:name="com.vendettatori.asilapp.InformazioniFragment"
+        android:label="fragment_informazioni"
+        tools:layout="@layout/fragment_informazioni" />
+</navigation>

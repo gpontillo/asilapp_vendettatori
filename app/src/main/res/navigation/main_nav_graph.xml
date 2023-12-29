@@ -44,7 +44,23 @@
         android:id="@+id/homeFragment"
         android:name="com.vendettatori.asilapp.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_anagrafica_nav_graph"
+            app:destination="@id/anagrafica_nav_graph" />
+        <action
+            android:id="@+id/action_homeFragment_to_parametri_medici_nav_graph"
+            app:destination="@id/parametri_medici_nav_graph" />
+        <action
+            android:id="@+id/action_homeFragment_to_gestione_spese_nav_graph"
+            app:destination="@id/gestione_spese_nav_graph" />
+        <action
+            android:id="@+id/action_homeFragment_to_gestione_dati_nav_graph"
+            app:destination="@id/gestione_dati_nav_graph" />
+        <action
+            android:id="@+id/action_homeFragment_to_informazioni_nav_graph"
+            app:destination="@id/informazioni_nav_graph" />
+    </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.vendettatori.asilapp.WelcomeFragment"
@@ -70,4 +86,9 @@
             app:popUpToInclusive="true" />
     </fragment>
     <include app:graph="@navigation/profile_nav_graph" />
+    <include app:graph="@navigation/anagrafica_nav_graph" />
+    <include app:graph="@navigation/parametri_medici_nav_graph" />
+    <include app:graph="@navigation/gestione_spese_nav_graph" />
+    <include app:graph="@navigation/gestione_dati_nav_graph" />
+    <include app:graph="@navigation/informazioni_nav_graph" />
 </navigation>
