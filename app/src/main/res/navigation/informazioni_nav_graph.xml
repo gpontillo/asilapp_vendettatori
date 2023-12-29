@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/informazioniFragment"
         android:name="com.vendettatori.asilapp.informazioni.InformazioniFragment"
-        android:label="fragment_informazioni"
+        android:label="Informazioni"
         tools:layout="@layout/fragment_informazioni" />
 </navigation>

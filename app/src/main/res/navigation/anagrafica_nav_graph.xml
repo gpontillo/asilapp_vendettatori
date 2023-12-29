@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/anagraficaFragment"
         android:name="com.vendettatori.asilapp.anagrafica.AnagraficaFragment"
-        android:label="fragment_anagrafica"
+        android:label="Anagrafica"
         tools:layout="@layout/fragment_anagrafica" />
 </navigation>
