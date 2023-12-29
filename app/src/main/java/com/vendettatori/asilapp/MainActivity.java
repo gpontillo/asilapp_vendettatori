@@ -101,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
         return currentUser != null;
     }
 
+    public boolean isUserLoggedComplete() {
+        return userData != null;
+    }
+
     public void loginFirebase(String email, String password, Callable<Void> onComplete) {
         authFireBase.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
@@ -133,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailureRetrieveUser(Exception e) {
                                     Log.e("DB_USER", "Error on retrieving data from DB", e);
-                                    Toast.makeText(getBaseContext(), "We need some info before logging you in", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getBaseContext(), "We need you to complete your profile before logging in", Toast.LENGTH_SHORT).show();
                                     navController.navigate(R.id.action_loginFragment_to_registerDataFragment);
                                 }
                             });

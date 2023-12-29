@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,7 +43,12 @@ public class WelcomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(((MainActivity) getActivity()).isUserLogged()) {
-            navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
+            if(((MainActivity) getActivity()).isUserLoggedComplete())
+                navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
+            else {
+                Toast.makeText(getContext(), "We need you to complete your profile before logging in", Toast.LENGTH_SHORT).show();
+                navController.navigate(R.id.action_welcomeFragment_to_registerDataFragment);
+            }
         }
         else {
             navController.navigate(R.id.action_welcomeFragment_to_loginFragment);
