@@ -2,6 +2,9 @@ package com.vendettatori.asilapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -10,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,11 +45,33 @@ public class WelcomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         if(((MainActivity) getActivity()).isUserLogged()) {
-            navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
+            if(((MainActivity) getActivity()).isUserLoggedComplete())
+                navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
+            else {
+                // Try to load userData from the DB
+                ((MainActivity) getActivity()).loadUserData(
+                        () -> {
+                            navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
+                            return null;
+                        },
+                        () -> {
+                            Toast.makeText(getContext(), "We need you to complete your profile before logging in", Toast.LENGTH_SHORT).show();
+                            navController.navigate(R.id.action_welcomeFragment_to_registerDataFragment);
+                            return null;
+                        }
+                );
+            }
         }
         else {
             navController.navigate(R.id.action_welcomeFragment_to_loginFragment);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }

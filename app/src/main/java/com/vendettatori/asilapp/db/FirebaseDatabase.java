@@ -6,9 +6,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FirebaseDatabase {
-    private static final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db;
 
-    public static void setUser(String userId, @NonNull UserAnagrafici user, IHandlerDBUser handler) {
+    public FirebaseDatabase() {
+        db = FirebaseFirestore.getInstance();
+    }
+
+    public void setUser(String userId, @NonNull UserAnagrafici user, IHandlerDBUser handler) {
         db.collection("users").document(userId)
                 .set(user)
                 .addOnSuccessListener(documentReference -> {
@@ -19,7 +23,7 @@ public class FirebaseDatabase {
                 });
     }
 
-    public static void getUser(String userId, IHandlerDBUser handler) {
+    public void getUser(String userId, IHandlerDBUser handler) {
         db.collection("users").document(userId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -27,7 +31,7 @@ public class FirebaseDatabase {
                         UserAnagrafici userData = document.toObject(UserAnagrafici.class);
                         handler.onRetrieveUser(userData);
                     } else {
-                        throw new RuntimeException("Accessing unknown user");
+                        handler.onErrorRetrieveUser(new RuntimeException("Accessing unknown user"));
                     }
                 });
     }
