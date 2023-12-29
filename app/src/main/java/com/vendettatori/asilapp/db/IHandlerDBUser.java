@@ -3,5 +3,6 @@ package com.vendettatori.asilapp.db;
 public interface IHandlerDBUser {
     void onSuccessSetUser();
     void onFailureSetUser(Exception e);
-    void onRetrieveUser(UserAnagrafici userData);
+    void onSuccessRetrieveUser(UserAnagrafici userData);
+    void onFailureRetrieveUser(Exception e);
 }
