@@ -153,7 +153,10 @@ public class RegisterDataFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                telefonoInput.setError(null);
+                if(s.length() > 10)
+                    telefonoInput.setError("Phone number too long");
+                else
+                    telefonoInput.setError(null);
             }
 
             @Override
