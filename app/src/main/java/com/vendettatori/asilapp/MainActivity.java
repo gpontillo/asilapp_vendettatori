@@ -10,10 +10,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     //noinspection RestrictedApi
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_app_bar, menu);
-        if(menu instanceof MenuBuilder){
+        if (menu instanceof MenuBuilder) {
             MenuBuilder m = (MenuBuilder) menu;
             //noinspection RestrictedApi
             m.setOptionalIconsVisible(true);
@@ -60,23 +62,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.action_profile) {
+        if (id == R.id.action_profile) {
             navController.navigate(R.id.profileFragment, null, new NavOptions.Builder()
                     .setEnterAnim(android.R.animator.fade_in)
                     .setExitAnim(android.R.animator.fade_out)
                     .build()
             );
             return true;
-        }
-        else if(id == R.id.action_anagrafici) {
+        } else if (id == R.id.action_anagrafici) {
             navController.navigate(R.id.datiAnagraficiFragment, null, new NavOptions.Builder()
                     .setEnterAnim(android.R.animator.fade_in)
                     .setExitAnim(android.R.animator.fade_out)
                     .build()
             );
             return true;
-        }
-        else if(id == R.id.action_logout) {
+        } else if (id == R.id.action_logout) {
             mAuth.signOut();
             currentUser = null;
             navController.navigate(R.id.loginFragment, null, new NavOptions.Builder()
@@ -86,8 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     .build()
             );
             return true;
-        }
-        else
+        } else
             return super.onOptionsItemSelected(item);
     }
 
@@ -98,23 +97,23 @@ public class MainActivity extends AppCompatActivity {
     public void loginFirebase(String email, String password, Callable<Void> methodParam) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                        try {
-                            methodParam.call();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
+                            try {
+                                methodParam.call();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                currentUser = mAuth.getCurrentUser();
+                                Log.w("LOGIN", "signInWithEmail:success");
+                                Toast.makeText(getBaseContext(), "Logged", Toast.LENGTH_SHORT).show();
+                                navController.navigate(R.id.action_loginFragment_to_homeFragment);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("LOGIN", "signInWithEmail:failure", task.getException());
+                                Toast.makeText(getBaseContext(), "Not logged", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            currentUser = mAuth.getCurrentUser();
-                            Log.w("LOGIN", "signInWithEmail:success");
-                            Toast.makeText(getBaseContext(), "Logged", Toast.LENGTH_SHORT).show();
-                            navController.navigate(R.id.action_loginFragment_to_homeFragment);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("LOGIN", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getBaseContext(), "Not logged", Toast.LENGTH_SHORT).show();
-                        }
-                    }
                 );
     }
 
@@ -163,5 +162,10 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void callforgetpassword(View view) {
+        Intent intent = new Intent(this, PasswordRecoveryActivity.class);
+        startActivity(intent);
     }
 }
