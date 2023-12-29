@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/anagraficaFragment"
-        android:name="com.vendettatori.asilapp.AnagraficaFragment"
+        android:name="com.vendettatori.asilapp.anagrafica.AnagraficaFragment"
         android:label="fragment_anagrafica"
         tools:layout="@layout/fragment_anagrafica" />
 </navigation>

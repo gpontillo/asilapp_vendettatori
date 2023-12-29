@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/gestioneDatiFragment"
-        android:name="com.vendettatori.asilapp.GestioneDatiFragment"
+        android:name="com.vendettatori.asilapp.gestdati.GestioneDatiFragment"
         android:label="gestione_dati_fragment"
         tools:layout="@layout/fragment_gestione_dati" />
 </navigation>
