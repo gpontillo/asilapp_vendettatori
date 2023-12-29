@@ -112,6 +112,10 @@ public class MainActivity extends AppCompatActivity {
             return userData != null;
     }
 
+    public UserAnagrafici getUserData() {
+        return userData;
+    }
+
     public void loginFirebase(String email, String password, Callable<Void> onComplete) {
         authFireBase.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {

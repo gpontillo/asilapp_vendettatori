@@ -94,7 +94,9 @@ public class RegisterDataFragment extends Fragment {
         indirizzoInput = view.findViewById(R.id.indirizzoLayoutRegister);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view1, year, month, dayOfMonth) -> {
-            dataNascitaInput.getEditText().setText(LocalDate.of(year, month, dayOfMonth).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+            LocalDate localDate = LocalDate.of(year, month, dayOfMonth);
+            String formattedDate = localDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+            dataNascitaInput.getEditText().setText(formattedDate);
         }, 1990, 1, 1);
 
         dataNascitaInput.setStartIconOnClickListener(v -> datePickerDialog.show());
@@ -108,9 +110,7 @@ public class RegisterDataFragment extends Fragment {
                 String telefono = telefonoInput.getEditText().getText().toString();
 
                 String dataString = dataNascitaInput.getEditText().getText().toString();
-                LocalDate dateLocale = LocalDate.parse(dataString, DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
-                Date date = Date.from(dateLocale.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                Timestamp dataNascita = new Timestamp(date);
+                Timestamp dataNascita = InputUtils.formatTimestampFromString(dataString);
 
                 String luogoNascita = luogoNascitaInput.getEditText().getText().toString();
                 String indirizzo = indirizzoInput.getEditText().getText().toString();
