@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.vendettatori.asilapp.db.FirebaseDatabase;
+import com.vendettatori.asilapp.db.IHandlerDBUser;
+import com.vendettatori.asilapp.db.UserAnagrafici;
 
 import java.util.concurrent.Callable;
 
