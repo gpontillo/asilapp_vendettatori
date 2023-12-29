@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             );
             return true;
         }
-        else if(id == R.id.action_profile) {
+        else if(id == R.id.action_anagrafici) {
             navController.navigate(R.id.datiAnagraficiFragment, null, new NavOptions.Builder()
                     .setEnterAnim(android.R.animator.fade_in)
                     .setExitAnim(android.R.animator.fade_out)
