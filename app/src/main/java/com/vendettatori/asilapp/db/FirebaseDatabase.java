@@ -29,9 +29,9 @@ public class FirebaseDatabase {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         UserAnagrafici userData = document.toObject(UserAnagrafici.class);
-                        handler.onSuccessRetrieveUser(userData);
+                        handler.onRetrieveUser(userData);
                     } else {
-                        handler.onFailureRetrieveUser(new RuntimeException("Accessing unknown user"));
+                        handler.onErrorRetrieveUser(new RuntimeException("Accessing unknown user"));
                     }
                 });
     }

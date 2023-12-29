@@ -102,7 +102,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean isUserLoggedComplete() {
-        return userData != null;
+        if(currentUser.isAnonymous()) {
+            // Mock data in case of anonymous user
+            if(userData == null)
+                userData = new UserAnagrafici();
+            return true;
+        }
+        else
+            return userData != null;
     }
 
     public void loginFirebase(String email, String password, Callable<Void> onComplete) {
@@ -127,18 +134,24 @@ public class MainActivity extends AppCompatActivity {
                                 public void onFailureSetUser(Exception e) {}
 
                                 @Override
-                                public void onSuccessRetrieveUser(UserAnagrafici userDataForm) {
-                                    userData = userDataForm;
-                                    Log.i("DB_USER", "Received from DB: " + userData);
-                                    Toast.makeText(getBaseContext(), "Logged", Toast.LENGTH_SHORT).show();
-                                    navController.navigate(R.id.action_loginFragment_to_homeFragment);
+                                public void onRetrieveUser(UserAnagrafici userDataForm) {
+                                    if(userDataForm != null) {
+                                        userData = userDataForm;
+                                        Log.i("DB_USER", "Received from DB: " + userData);
+                                        Toast.makeText(getBaseContext(), "Logged", Toast.LENGTH_SHORT).show();
+                                        navController.navigate(R.id.action_loginFragment_to_homeFragment);
+                                    }
+                                    else {
+                                        Log.w("MAIN", "No user found");
+                                        Toast.makeText(getBaseContext(), "We need you to complete your profile before logging in", Toast.LENGTH_SHORT).show();
+                                        navController.navigate(R.id.action_loginFragment_to_registerDataFragment);
+                                    }
                                 }
 
                                 @Override
-                                public void onFailureRetrieveUser(Exception e) {
-                                    Log.e("DB_USER", "Error on retrieving data from DB", e);
-                                    Toast.makeText(getBaseContext(), "We need you to complete your profile before logging in", Toast.LENGTH_SHORT).show();
-                                    navController.navigate(R.id.action_loginFragment_to_registerDataFragment);
+                                public void onErrorRetrieveUser(Exception e) {
+                                    Log.e("MAIN", "Error on retriving user from DB", e);
+                                    Toast.makeText(getBaseContext(), "An unexpected error accured", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
@@ -224,10 +237,47 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSuccessRetrieveUser(UserAnagrafici userData) {}
+            public void onRetrieveUser(UserAnagrafici userData) {}
 
             @Override
-            public void onFailureRetrieveUser(Exception e) {}
+            public void onErrorRetrieveUser(Exception e) {}
+        });
+    }
+
+    public void loadUserData(Callable<Void> onUserFound, Callable<Void> onUserNotFound) {
+        dbFireBase.getUser(currentUser.getUid(), new IHandlerDBUser() {
+            @Override
+            public void onSuccessSetUser() {}
+
+            @Override
+            public void onFailureSetUser(Exception e) {}
+
+            @Override
+            public void onRetrieveUser(UserAnagrafici userDataDb) {
+                if(userDataDb != null) {
+                    userData = userDataDb;
+                    Log.i("MAIN", "Success on fetch from DB");
+                    try {
+                        onUserFound.call();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                else {
+                    Log.w("MAIN", "No user found");
+                    try {
+                        onUserNotFound.call();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            @Override
+            public void onErrorRetrieveUser(Exception e) {
+                Log.e("MAIN", "Error on fetch from DB", e);
+                Toast.makeText(getBaseContext(), "An unexpected error accured", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

@@ -30,7 +30,7 @@ public class UserAnagrafici {
         this.nome = "Mario";
         this.cognome = "Rossi";
         this.dataNascita = new Timestamp(new Date());
-        this.telefono = "1111111111";
+        this.telefono = "1234567890";
         this.luogoNascita = "Roma";
         this.indirizzo = "Via Appia 1, Roma";
     }

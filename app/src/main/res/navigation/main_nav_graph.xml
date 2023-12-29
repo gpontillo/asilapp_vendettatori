@@ -93,7 +93,7 @@
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.vendettatori.asilapp.WelcomeFragment"
-        android:label="fragment_welcome"
+        android:label=""
         tools:layout="@layout/fragment_welcome" >
         <action
             android:id="@+id/action_welcomeFragment_to_loginFragment"
@@ -130,7 +130,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.vendettatori.asilapp.user_pages.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/datiAnagraficiFragment"
@@ -140,7 +140,7 @@
     <fragment
         android:id="@+id/registerDataFragment"
         android:name="com.vendettatori.asilapp.auth.RegisterDataFragment"
-        android:label="fragment_register_data"
+        android:label=""
         tools:layout="@layout/fragment_register_data" >
         <action
             android:id="@+id/action_registerDataFragment_to_homeFragment"

@@ -9,6 +9,6 @@ public class InputUtils {
     }
 
     public static boolean isValidPhone(String target) {
-        return (!TextUtils.isEmpty(target) && target.length() < 10);
+        return (!TextUtils.isEmpty(target) && target.length() <= 10);
     }
 }
