@@ -54,7 +54,7 @@
         <!-- Animations for the navigation. -->
         <item name="android:windowAnimationStyle">@style/MyCustomActivityAnimation</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/md_theme_background</item>
+        <!-- <item name="android:statusBarColor">@color/md_theme_background</item> -->
     </style>
 
     <style name="MyCustomActivityAnimation" parent="@android:style/Animation.Activity">
