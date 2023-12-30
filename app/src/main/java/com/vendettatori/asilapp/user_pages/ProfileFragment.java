@@ -54,11 +54,19 @@ public class ProfileFragment extends Fragment {
 
         Button buttonLogout = view.findViewById(R.id.logoutProfile);
 
+
+
         String email = ((MainActivity) getActivity()).getUserAuth().getEmail();
         String phone = ((MainActivity) getActivity()).getUserData().getTelefono();
 
         emailInput.getEditText().setInputType(InputType.TYPE_NULL);
-        emailInput.getEditText().setText(email);
+        if(email == null) {
+            emailInput.getEditText().setText("user@guest.com");
+        }
+        else {
+            emailInput.getEditText().setText(email);
+        }
+
         phoneInput.getEditText().setInputType(InputType.TYPE_NULL);
         phoneInput.getEditText().setText(phone);
 
