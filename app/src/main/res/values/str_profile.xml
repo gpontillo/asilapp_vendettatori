@@ -4,4 +4,5 @@
     <string name="scritta_profilo">Profilo</string>
     <string name="numero_hint">+393324322321</string>
     <string name="email_hint">example@email.com</string>
+    <string name="profile_logout">Logout</string>
 </resources>

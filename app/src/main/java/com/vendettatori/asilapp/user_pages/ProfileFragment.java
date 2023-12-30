@@ -6,12 +6,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.vendettatori.asilapp.R;
 
 /**
@@ -21,6 +25,8 @@ import com.vendettatori.asilapp.R;
  */
 public class ProfileFragment extends Fragment {
     NavController navController;
+    private FirebaseAuth authFireBase;
+    private FirebaseUser currentUser;
 
     public ProfileFragment() {
     }
@@ -33,6 +39,8 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         navController = NavHostFragment.findNavController(this);
+        authFireBase = FirebaseAuth.getInstance();
+        currentUser = authFireBase.getCurrentUser();
     }
 
     @Override
@@ -45,6 +53,19 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Logout button code
+        Button logout = (Button) getView().findViewById(R.id.logoutButton);
+        logout.setOnClickListener(v -> {
+            authFireBase.signOut();
+            currentUser = null;
+            navController.navigate(R.id.loginFragment, null, new NavOptions.Builder()
+                    .setEnterAnim(android.R.animator.fade_in)
+                    .setExitAnim(android.R.animator.fade_out)
+                    .setPopUpTo(R.id.navigator_graph, true)
+                    .build()
+            );
+        });
 
     }
 }
