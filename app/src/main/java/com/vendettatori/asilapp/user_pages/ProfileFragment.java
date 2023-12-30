@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,9 @@ public class ProfileFragment extends Fragment {
         String email = ((MainActivity) getActivity()).getUserAuth().getEmail();
         String phone = ((MainActivity) getActivity()).getUserData().getTelefono();
 
+        emailInput.getEditText().setInputType(InputType.TYPE_NULL);
         emailInput.getEditText().setText(email);
+        phoneInput.getEditText().setInputType(InputType.TYPE_NULL);
         phoneInput.getEditText().setText(phone);
 
         buttonLogout.setOnClickListener(v -> ((MainActivity) getActivity()).logout());
