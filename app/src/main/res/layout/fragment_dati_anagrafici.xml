@@ -10,7 +10,7 @@
         android:id="@+id/anagraficiImage"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:src="@drawable/dati_anagrafici_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
