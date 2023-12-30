@@ -43,7 +43,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="Dati Anagrafici"
-                    android:textColor="@color/lavender"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -52,6 +52,7 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
+                    app:tint="?attr/colorPrimaryVariant"
                     android:src="@drawable/dati_anagrafici_24" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -77,7 +78,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="Parametri Medici"
-                    android:textColor="@color/lavender"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -86,6 +87,7 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
+                    app:tint="?attr/colorPrimaryVariant"
                     android:src="@drawable/parametri_medici_24" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -129,7 +131,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="Info"
-                    android:textColor="@color/lavender"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="20sp" />
 
                 <ImageView
@@ -138,6 +140,7 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
+                    app:tint="?attr/colorPrimaryVariant"
                     android:src="@drawable/info_24" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -163,7 +166,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="Gestione Spese"
-                    android:textColor="@color/lavender"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -172,6 +175,7 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
+                    app:tint="?attr/colorPrimaryVariant"
                     android:src="@drawable/gestione_spese_24" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -214,7 +218,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="Gestione Dati"
-                    android:textColor="@color/lavender"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="20sp" />
 
                 <ImageView
@@ -223,6 +227,7 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
+                    app:tint="?attr/colorPrimaryVariant"
                     android:src="@drawable/gestione_dati_24" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
