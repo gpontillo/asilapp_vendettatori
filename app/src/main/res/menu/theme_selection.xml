@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/systemSettingAction"
+        android:title="Use system theme"
+        />
+    <item android:id="@+id/lightAction"
+        android:title="Light"
+        />
+    <item android:id="@+id/darkAction"
+        android:title="Dark"
+        />
+</menu>

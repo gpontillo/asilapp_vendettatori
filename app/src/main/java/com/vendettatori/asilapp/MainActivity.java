@@ -2,6 +2,7 @@ package com.vendettatori.asilapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
@@ -10,6 +11,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase dbFireBase;
     private UserAnagrafici userData;
 
+    private int themeId = 999999;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment).build();
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+        AppCompatDelegate.setDefaultNightMode(getThemeId());
     }
 
     @Override
@@ -316,5 +322,27 @@ public class MainActivity extends AppCompatActivity {
                 .setPopUpTo(R.id.navigator_graph, true)
                 .build()
         );
+    }
+
+    public int getThemeId() {
+        if(themeId == 999999) {
+            SharedPreferences sharedPref = getBaseContext().getSharedPreferences("theme", Context.MODE_PRIVATE);
+            themeId = sharedPref.getInt("themeId", 999999);
+            if(themeId == 999999) {
+                themeId = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putInt("themeId", themeId);
+                editor.apply();
+            }
+        }
+        return themeId;
+    }
+
+    public void setThemeId(int themeId) {
+        this.themeId = themeId;
+        SharedPreferences sharedPref = getBaseContext().getSharedPreferences("theme", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("themeId", themeId);
+        editor.apply();
     }
 }
