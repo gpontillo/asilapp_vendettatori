@@ -154,12 +154,14 @@ public class LoginFragment extends Fragment {
             buttonLogin.setVisibility(View.INVISIBLE);
             buttonRegister.setVisibility(View.INVISIBLE);
             textGuest.setVisibility(View.INVISIBLE);
+            textForgot.setVisibility(View.INVISIBLE);
             loader.setVisibility(View.VISIBLE);
         }
         else {
             buttonLogin.setVisibility(View.VISIBLE);
             buttonRegister.setVisibility(View.VISIBLE);
             textGuest.setVisibility(View.VISIBLE);
+            textForgot.setVisibility(View.VISIBLE);
             loader.setVisibility(View.GONE);
         }
     }
