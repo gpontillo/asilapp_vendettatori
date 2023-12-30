@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.vendettatori.asilapp.db.FirebaseDatabase;
@@ -198,6 +200,28 @@ public class MainActivity extends AppCompatActivity {
                         // If sign in fails, display a message to the user.
                         Log.w("REGISTER", "createUserWithEmail:failure", task.getException());
                         Toast.makeText(getBaseContext(), "Registration failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void forgotFirebase(String email, Callable<Void> onComplete) {
+        authFireBase.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    try {
+                        onComplete.call();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    if (task.isSuccessful()) {
+                        Log.i("FORGOT", "sendPasswordResetEmail:success");
+                        Toast.makeText(getBaseContext(), "Email for reset confirm.",
+                                Toast.LENGTH_SHORT).show();
+                        navController.navigate(R.id.action_forgotFragment_to_loginFragment);
+                    }
+                    else {
+                        Log.w("FORGOT", "sendPasswordResetEmail:failure", task.getException());
+                        Toast.makeText(getBaseContext(), "Email for reset failed.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
