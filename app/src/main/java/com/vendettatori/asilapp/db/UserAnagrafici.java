@@ -1,12 +1,7 @@
 package com.vendettatori.asilapp.db;
 
 import com.google.firebase.Timestamp;
-
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class UserAnagrafici {
     private String nome;
