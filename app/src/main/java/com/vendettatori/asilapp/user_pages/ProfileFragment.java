@@ -11,7 +11,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.google.android.material.textfield.TextInputLayout;
+import com.vendettatori.asilapp.MainActivity;
 import com.vendettatori.asilapp.R;
 
 /**
@@ -45,6 +48,17 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        TextInputLayout emailInput = view.findViewById(R.id.emailLayoutProfile);
+        TextInputLayout phoneInput = view.findViewById(R.id.phoneLayoutProfile);
 
+        Button buttonLogout = view.findViewById(R.id.logoutProfile);
+
+        String email = ((MainActivity) getActivity()).getUserAuth().getEmail();
+        String phone = ((MainActivity) getActivity()).getUserData().getTelefono();
+
+        emailInput.getEditText().setText(email);
+        phoneInput.getEditText().setText(phone);
+
+        buttonLogout.setOnClickListener(v -> ((MainActivity) getActivity()).logout());
     }
 }

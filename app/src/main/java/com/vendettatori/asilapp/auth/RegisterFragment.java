@@ -16,9 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.vendettatori.asilapp.MainActivity;
@@ -65,7 +63,7 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
-        buttonConfirm = view.findViewById(R.id.confButtonRegister);
+        buttonConfirm = view.findViewById(R.id.logoutProfile);
 
         loader = view.findViewById(R.id.progressBarRegister);
 

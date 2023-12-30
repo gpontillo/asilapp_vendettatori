@@ -85,14 +85,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if(id == R.id.action_logout) {
-            authFireBase.signOut();
-            currentUser = null;
-            navController.navigate(R.id.loginFragment, null, new NavOptions.Builder()
-                    .setEnterAnim(android.R.animator.fade_in)
-                    .setExitAnim(android.R.animator.fade_out)
-                    .setPopUpTo(R.id.navigator_graph, true)
-                    .build()
-            );
+            logout();
             return true;
         }
         else
@@ -116,6 +109,10 @@ public class MainActivity extends AppCompatActivity {
 
     public UserAnagrafici getUserData() {
         return userData;
+    }
+
+    public FirebaseUser getUserAuth() {
+        return currentUser;
     }
 
     public void loginFirebase(String email, String password, Callable<Void> onComplete) {
@@ -226,13 +223,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if (task.isSuccessful()) {
                         Log.i("FORGOT", "sendPasswordResetEmail:success");
-                        Toast.makeText(getBaseContext(), "Email for reset confirm.",
+                        Toast.makeText(getBaseContext(), "Email sent! Check your inbox to change the password!",
                                 Toast.LENGTH_SHORT).show();
                         navController.navigate(R.id.action_forgotFragment_to_loginFragment);
                     }
                     else {
                         Log.w("FORGOT", "sendPasswordResetEmail:failure", task.getException());
-                        Toast.makeText(getBaseContext(), "Email for reset failed.",
+                        Toast.makeText(getBaseContext(), "Error on sending the email. Check if the email is correct",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -307,5 +304,17 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "An unexpected error accured", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void logout() {
+        authFireBase.signOut();
+        currentUser = null;
+        userData = null;
+        navController.navigate(R.id.loginFragment, null, new NavOptions.Builder()
+                .setEnterAnim(android.R.animator.fade_in)
+                .setExitAnim(android.R.animator.fade_out)
+                .setPopUpTo(R.id.navigator_graph, true)
+                .build()
+        );
     }
 }

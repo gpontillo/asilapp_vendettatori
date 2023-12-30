@@ -50,7 +50,6 @@ public class ForgotFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_forgot, container, false);
     }
@@ -58,7 +57,8 @@ public class ForgotFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        buttonConfirm = view.findViewById(R.id.BtnRecoverPassword);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        buttonConfirm = view.findViewById(R.id.buttonConfForgot);
         loader = view.findViewById(R.id.progressBarForgot);
 
         emailInput = view.findViewById(R.id.emailLayoutForgot);
