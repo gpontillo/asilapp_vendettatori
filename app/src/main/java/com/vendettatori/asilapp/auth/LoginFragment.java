@@ -37,6 +37,7 @@ public class LoginFragment extends Fragment {
     Button buttonLogin;
     Button buttonRegister;
     TextView textGuest;
+    TextView textForgot;
     ProgressBar loader;
 
     public LoginFragment() {
@@ -67,6 +68,7 @@ public class LoginFragment extends Fragment {
         buttonLogin = view.findViewById(R.id.confloginButtonLogin);
         buttonRegister = view.findViewById(R.id.registerButtonLogin);
         textGuest = view.findViewById(R.id.guestText);
+        textForgot = view.findViewById(R.id.forgotText);
 
         loader = view.findViewById(R.id.progressBarLogin);
 
@@ -84,6 +86,7 @@ public class LoginFragment extends Fragment {
         buttonRegister.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_registerFragment));
 
         textGuest.setOnClickListener(v -> onLoginAsGuest());
+        textGuest.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_forgotFragment));
 
         emailInput.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
