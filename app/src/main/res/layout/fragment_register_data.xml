@@ -23,7 +23,7 @@
             app:layout_constraintVertical_bias="0.060000002" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/cognomeLayoutRegister"
+            android:id="@+id/cognomeLayoutAnagrafica"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/nomeLayoutRegister"
+            android:id="@+id/nomeLayoutAnagrafica"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cognomeLayoutRegister"
+            app:layout_constraintTop_toBottomOf="@+id/cognomeLayoutAnagrafica"
             app:startIconDrawable="@drawable/person_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -75,7 +75,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/telefonoLayoutRegister"
+            android:id="@+id/telefonoLayoutAnagrafica"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nomeLayoutRegister"
+            app:layout_constraintTop_toBottomOf="@+id/nomeLayoutAnagrafica"
             app:startIconDrawable="@drawable/telefono_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -105,7 +105,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dataLayoutRegister"
+            android:id="@+id/dataLayoutAnagrafica"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/telefonoLayoutRegister"
+            app:layout_constraintTop_toBottomOf="@+id/telefonoLayoutAnagrafica"
             app:startIconDrawable="@drawable/calendar_24"
             app:startIconCheckable="true">
 
@@ -131,7 +131,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/luogoLayoutRegister"
+            android:id="@+id/luogoLayoutAnagrafica"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -143,7 +143,7 @@
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dataLayoutRegister"
+            app:layout_constraintTop_toBottomOf="@+id/dataLayoutAnagrafica"
             app:startIconDrawable="@drawable/luogo_nascita_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -154,7 +154,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/indirizzoLayoutRegister"
+            android:id="@+id/indirizzoLayoutAnagrafica"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/luogoLayoutRegister"
+            app:layout_constraintTop_toBottomOf="@+id/luogoLayoutAnagrafica"
             app:startIconDrawable="@drawable/indirizzo_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -189,7 +189,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/indirizzoLayoutRegister" />
+            app:layout_constraintTop_toBottomOf="@+id/indirizzoLayoutAnagrafica" />
 
         <ProgressBar
             android:id="@+id/progressBarRegisterData"
@@ -201,7 +201,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/indirizzoLayoutRegister"
+            app:layout_constraintTop_toBottomOf="@+id/indirizzoLayoutAnagrafica"
             app:layout_constraintVertical_bias="0.193" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

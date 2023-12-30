@@ -18,10 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ProgressBar;
 
-import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 import com.vendettatori.asilapp.MainActivity;
@@ -29,14 +27,9 @@ import com.vendettatori.asilapp.R;
 import com.vendettatori.asilapp.db.UserAnagrafici;
 import com.vendettatori.asilapp.utils.InputUtils;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -86,12 +79,12 @@ public class RegisterDataFragment extends Fragment {
 
         loader = view.findViewById(R.id.progressBarRegisterData);
 
-        cognomeInput = view.findViewById(R.id.cognomeLayoutRegister);
-        nomeInput = view.findViewById(R.id.nomeLayoutRegister);
-        telefonoInput = view.findViewById(R.id.telefonoLayoutRegister);
-        dataNascitaInput = view.findViewById(R.id.dataLayoutRegister);
-        luogoNascitaInput = view.findViewById(R.id.luogoLayoutRegister);
-        indirizzoInput = view.findViewById(R.id.indirizzoLayoutRegister);
+        cognomeInput = view.findViewById(R.id.cognomeLayoutAnagrafica);
+        nomeInput = view.findViewById(R.id.nomeLayoutAnagrafica);
+        telefonoInput = view.findViewById(R.id.telefonoLayoutAnagrafica);
+        dataNascitaInput = view.findViewById(R.id.dataLayoutAnagrafica);
+        luogoNascitaInput = view.findViewById(R.id.luogoLayoutAnagrafica);
+        indirizzoInput = view.findViewById(R.id.indirizzoLayoutAnagrafica);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view1, year, month, dayOfMonth) -> {
             LocalDate localDate = LocalDate.of(year, month, dayOfMonth);

@@ -10,13 +10,17 @@
         android:id="@+id/row1"
         android:layout_width="0dp"
         android:layout_height="175dp"
-        android:layout_marginTop="50dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="horizontal"
         android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/row2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/AnagraficiCard"
@@ -25,7 +29,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             app:cardCornerRadius="20dp"
-            app:cardElevation="20dp">
+            app:cardElevation="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -59,7 +63,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             app:cardCornerRadius="20dp"
-            app:cardElevation="20dp">
+            app:cardElevation="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -91,13 +95,18 @@
         android:id="@+id/row2"
         android:layout_width="0dp"
         android:layout_height="175dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
+        android:clickable="false"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="horizontal"
         android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/row3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/row1">
+        app:layout_constraintTop_toBottomOf="@+id/row1"
+        app:layout_constraintVertical_bias="0.5">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/InfoCard"
@@ -106,7 +115,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             app:cardCornerRadius="20dp"
-            app:cardElevation="20dp">
+            app:cardElevation="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -140,7 +149,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             app:cardCornerRadius="20dp"
-            app:cardElevation="20dp">
+            app:cardElevation="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -172,13 +181,17 @@
         android:id="@+id/row3"
         android:layout_width="0dp"
         android:layout_height="175dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="horizontal"
         android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/row2">
+        app:layout_constraintTop_toBottomOf="@+id/row2"
+        app:layout_constraintVertical_bias="0.5">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/DatiCard"
@@ -187,7 +200,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             app:cardCornerRadius="20dp"
-            app:cardElevation="20dp">
+            app:cardElevation="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"

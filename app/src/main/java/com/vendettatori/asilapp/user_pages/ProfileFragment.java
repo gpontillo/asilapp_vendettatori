@@ -54,8 +54,6 @@ public class ProfileFragment extends Fragment {
 
         Button buttonLogout = view.findViewById(R.id.logoutProfile);
 
-
-
         String email = ((MainActivity) getActivity()).getUserAuth().getEmail();
         String phone = ((MainActivity) getActivity()).getUserData().getTelefono();
 

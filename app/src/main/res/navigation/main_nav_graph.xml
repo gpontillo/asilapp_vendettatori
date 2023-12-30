@@ -143,7 +143,7 @@
         android:id="@+id/datiAnagraficiFragment"
         android:name="com.vendettatori.asilapp.user_pages.DatiAnagraficiFragment"
         android:label="Dati Anagrafici"
-        tools:layout="@layout/fragment_dati_personali" />
+        tools:layout="@layout/fragment_dati_anagrafici" />
     <fragment
         android:id="@+id/registerDataFragment"
         android:name="com.vendettatori.asilapp.auth.RegisterDataFragment"
