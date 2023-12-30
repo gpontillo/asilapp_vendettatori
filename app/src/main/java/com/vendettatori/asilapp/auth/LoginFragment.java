@@ -86,7 +86,7 @@ public class LoginFragment extends Fragment {
         buttonRegister.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_registerFragment));
 
         textGuest.setOnClickListener(v -> onLoginAsGuest());
-        textGuest.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_forgotFragment));
+        textForgot.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_forgotFragment));
 
         emailInput.getEditText().addTextChangedListener(new TextWatcher() {
             @Override

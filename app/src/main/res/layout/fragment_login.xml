@@ -83,21 +83,6 @@
         app:layout_constraintStart_toEndOf="@+id/registerButtonLogin" />
 
     <Button
-        android:id="@+id/forgot_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:onClick="callforgetpassword"
-        android:padding="8dp"
-        android:text="Forgot Password"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/guestText"
-        app:layout_constraintEnd_toStartOf="@+id/guestText"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
         android:id="@+id/registerButtonLogin"
         style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="wrap_content"
@@ -113,13 +98,13 @@
         android:id="@+id/guestText"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="10dp"
         android:clickable="true"
         android:text="@string/enter_as_guestButton"
         android:textAlignment="textStart"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.809"
+        app:layout_constraintHorizontal_bias="0.7888"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confloginButtonLogin" />
 
