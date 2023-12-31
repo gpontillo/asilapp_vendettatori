@@ -29,7 +29,7 @@ import com.vendettatori.asilapp.R;
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends AuthFragment {
     NavController navController;
     boolean loading = false;
     TextInputLayout emailInput;
@@ -63,7 +63,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         buttonLogin = view.findViewById(R.id.confloginButtonLogin);
         buttonRegister = view.findViewById(R.id.registerButtonLogin);
         textGuest = view.findViewById(R.id.guestText);
@@ -164,11 +163,5 @@ public class LoginFragment extends Fragment {
             textForgot.setVisibility(View.VISIBLE);
             loader.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }

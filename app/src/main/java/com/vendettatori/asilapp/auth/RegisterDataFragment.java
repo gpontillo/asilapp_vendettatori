@@ -36,7 +36,7 @@ import java.time.format.FormatStyle;
  * Use the {@link RegisterDataFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegisterDataFragment extends Fragment {
+public class RegisterDataFragment extends AuthFragment {
 
     NavController navController;
     boolean loading = false;
@@ -73,7 +73,6 @@ public class RegisterDataFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
         buttonConfirm = view.findViewById(R.id.confButtonRegisterData);
 
@@ -246,11 +245,5 @@ public class RegisterDataFragment extends Fragment {
             buttonConfirm.setVisibility(View.VISIBLE);
             loader.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }

@@ -27,7 +27,7 @@ import com.vendettatori.asilapp.R;
  * Use the {@link ForgotFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ForgotFragment extends Fragment {
+public class ForgotFragment extends AuthFragment {
     NavController navController;
     boolean loading = false;
     TextInputLayout emailInput;
@@ -57,7 +57,6 @@ public class ForgotFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         buttonConfirm = view.findViewById(R.id.buttonConfForgot);
         loader = view.findViewById(R.id.progressBarForgot);
 
@@ -114,11 +113,5 @@ public class ForgotFragment extends Fragment {
             buttonConfirm.setVisibility(View.VISIBLE);
             loader.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }

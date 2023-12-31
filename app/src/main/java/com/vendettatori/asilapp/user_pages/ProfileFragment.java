@@ -70,15 +70,17 @@ public class ProfileFragment extends Fragment {
 
         Button buttonLogout = view.findViewById(R.id.logoutProfile);
 
+        MainActivity activity = ((MainActivity) getActivity());
+
         String email = "";
         String phone = "";
-        if(((MainActivity) getActivity()).getUserAuth() != null)
-            email = ((MainActivity) getActivity()).getUserAuth().getEmail();
-        if(((MainActivity) getActivity()).getUserData() != null)
-            phone = ((MainActivity) getActivity()).getUserData().getTelefono();
+        if(activity.getUserAuth() != null)
+            email = activity.getUserAuth().getEmail();
+        if(activity.getUserData() != null)
+            phone = activity.getUserData().getTelefono();
 
         emailInput.getEditText().setInputType(InputType.TYPE_NULL);
-        if(email == null) {
+        if(email == null || (activity.getUserAuth() != null && activity.getUserAuth().isAnonymous())) {
             emailInput.getEditText().setText("user@guest.com");
         }
         else {
@@ -91,7 +93,7 @@ public class ProfileFragment extends Fragment {
         themeInput.getEditText().setInputType(InputType.TYPE_NULL);
         themeInput.setStartIconOnClickListener(v -> selectTheme(v));
         themeInput.getEditText().setOnClickListener(v -> selectTheme(v));
-        themeInput.getEditText().setText(InputUtils.fromIdtoStringTheme(((MainActivity) getActivity()).getThemeId()));
+        themeInput.getEditText().setText(InputUtils.fromIdtoStringTheme((activity.getThemeId())));
 
         buttonLogout.setOnClickListener(v -> ((MainActivity) getActivity()).logout());
     }

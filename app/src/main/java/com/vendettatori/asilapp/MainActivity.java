@@ -114,10 +114,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public UserAnagrafici getUserData() {
+        if(currentUser == null) {
+            currentUser = authFireBase.getCurrentUser();
+        }
+        if(userData == null) {
+            dbFireBase.getUser(currentUser.getUid(), new IHandlerDBUser() {
+                @Override
+                public void onSuccessSetUser() {}
+
+                @Override
+                public void onFailureSetUser(Exception e) {}
+
+                @Override
+                public void onRetrieveUser(UserAnagrafici userDataForm) {
+                    if(userDataForm != null) {
+                        userData = userDataForm;
+                        Log.i("DB_USER", "Received from DB: " + userData);
+                    }
+                    else {
+                        if(currentUser != null && currentUser.isAnonymous()) {
+                            // Fake data
+                            userData = new UserAnagrafici();
+                        }
+                        Log.w("DB_USER", "No user found");
+                    }
+                }
+
+                @Override
+                public void onErrorRetrieveUser(Exception e) {
+                    Log.e("MAIN", "Error on retriving user from DB", e);
+                    Toast.makeText(getBaseContext(), "An unexpected error accured", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         return userData;
     }
 
     public FirebaseUser getUserAuth() {
+        if(currentUser == null) {
+            currentUser = authFireBase.getCurrentUser();
+        }
         return currentUser;
     }
 

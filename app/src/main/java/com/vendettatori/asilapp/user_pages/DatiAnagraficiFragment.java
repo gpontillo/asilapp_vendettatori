@@ -58,23 +58,26 @@ public class DatiAnagraficiFragment extends Fragment {
         TextInputLayout luogoNascitaInput = view.findViewById(R.id.luogoLayoutAnagrafica);
         TextInputLayout indirizzoInput = view.findViewById(R.id.indirizzoLayoutAnagrafica);
 
-        UserAnagrafici userData = ((MainActivity) getActivity()).getUserData();
-        String cognome = userData.getCognome();
-        String nome = userData.getNome();
-        String dataNascita = InputUtils.formatStringFromTimestamp(userData.getDataNascita());
-        String luogoNascita = userData.getLuogoNascita();
-        String indirizzo = userData.getIndirizzo();
-
         cognomeInput.getEditText().setInputType(InputType.TYPE_NULL);
         nomeInput.getEditText().setInputType(InputType.TYPE_NULL);
         dataNascitaInput.getEditText().setInputType(InputType.TYPE_NULL);
         luogoNascitaInput.getEditText().setInputType(InputType.TYPE_NULL);
         indirizzoInput.getEditText().setInputType(InputType.TYPE_NULL);
 
-        cognomeInput.getEditText().setText(cognome);
-        nomeInput.getEditText().setText(nome);
-        dataNascitaInput.getEditText().setText(dataNascita);
-        luogoNascitaInput.getEditText().setText(luogoNascita);
-        indirizzoInput.getEditText().setText(indirizzo);
+        MainActivity activity = ((MainActivity) getActivity());
+        UserAnagrafici userData = activity.getUserData();
+        if(userData != null) {
+            String cognome = userData.getCognome();
+            String nome = userData.getNome();
+            String dataNascita = InputUtils.formatStringFromTimestamp(userData.getDataNascita());
+            String luogoNascita = userData.getLuogoNascita();
+            String indirizzo = userData.getIndirizzo();
+
+            cognomeInput.getEditText().setText(cognome);
+            nomeInput.getEditText().setText(nome);
+            dataNascitaInput.getEditText().setText(dataNascita);
+            luogoNascitaInput.getEditText().setText(luogoNascita);
+            indirizzoInput.getEditText().setText(indirizzo);
+        }
     }
 }

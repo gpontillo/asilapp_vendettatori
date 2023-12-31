@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -28,7 +29,7 @@ import com.vendettatori.asilapp.utils.InputUtils;
  * Use the {@link RegisterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends AuthFragment {
     NavController navController;
     boolean loading = false;
     TextInputLayout emailInput;
@@ -61,7 +62,6 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
         buttonConfirm = view.findViewById(R.id.logoutProfile);
 
@@ -163,11 +163,5 @@ public class RegisterFragment extends Fragment {
             buttonConfirm.setVisibility(View.VISIBLE);
             loader.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }
