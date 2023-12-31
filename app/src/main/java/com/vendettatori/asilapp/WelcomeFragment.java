@@ -45,23 +45,14 @@ public class WelcomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        if(((MainActivity) getActivity()).isUserLogged()) {
-            if(((MainActivity) getActivity()).isUserLoggedComplete())
+        MainActivity activity = ((MainActivity) getActivity());
+        activity.getSupportActionBar().hide();
+        if(activity.currentUser != null) {
+            if(activity.isUserLoggedComplete())
                 navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
             else {
-                // Try to load userData from the DB
-                ((MainActivity) getActivity()).loadUserData(
-                        () -> {
-                            navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
-                            return null;
-                        },
-                        () -> {
-                            Toast.makeText(getContext(), "We need you to complete your profile before logging in", Toast.LENGTH_SHORT).show();
-                            navController.navigate(R.id.action_welcomeFragment_to_registerDataFragment);
-                            return null;
-                        }
-                );
+                Toast.makeText(getContext(), "We need you to complete your profile before logging in", Toast.LENGTH_SHORT).show();
+                navController.navigate(R.id.action_welcomeFragment_to_registerDataFragment);
             }
         }
         else {

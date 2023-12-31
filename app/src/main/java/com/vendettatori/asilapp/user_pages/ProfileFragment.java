@@ -13,6 +13,7 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -74,13 +75,13 @@ public class ProfileFragment extends Fragment {
 
         String email = "";
         String phone = "";
-        if(activity.getUserAuth() != null)
-            email = activity.getUserAuth().getEmail();
-        if(activity.getUserData() != null)
-            phone = activity.getUserData().getTelefono();
+        if(activity.currentUser != null)
+            email = activity.currentUser.getEmail();
+        if(activity.userData != null)
+            phone = activity.userData .getTelefono();
 
         emailInput.getEditText().setInputType(InputType.TYPE_NULL);
-        if(email == null || (activity.getUserAuth() != null && activity.getUserAuth().isAnonymous())) {
+        if(email == null || (activity.currentUser != null && activity.currentUser.isAnonymous())) {
             emailInput.getEditText().setText("user@guest.com");
         }
         else {
@@ -93,7 +94,7 @@ public class ProfileFragment extends Fragment {
         themeInput.getEditText().setInputType(InputType.TYPE_NULL);
         themeInput.setStartIconOnClickListener(v -> selectTheme(v));
         themeInput.getEditText().setOnClickListener(v -> selectTheme(v));
-        themeInput.getEditText().setText(InputUtils.fromIdtoStringTheme((activity.getThemeId())));
+        themeInput.getEditText().setText(InputUtils.fromIdtoStringTheme((activity.themeId)));
 
         buttonLogout.setOnClickListener(v -> ((MainActivity) getActivity()).logout());
     }
@@ -109,7 +110,6 @@ public class ProfileFragment extends Fragment {
         themeInput.getEditText().setText(item.getTitle());
         String themeString = (String) item.getTitle();
         int idTheme = InputUtils.fromStringtoIdTheme(themeString);
-        AppCompatDelegate.setDefaultNightMode(idTheme);
         ((MainActivity) getActivity()).setThemeId(idTheme);
         return true;
     }

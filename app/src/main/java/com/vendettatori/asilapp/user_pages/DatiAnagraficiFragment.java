@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.vendettatori.asilapp.MainActivity;
 import com.vendettatori.asilapp.R;
-import com.vendettatori.asilapp.db.UserAnagrafici;
+import com.vendettatori.asilapp.db.UserAnagrafica;
 import com.vendettatori.asilapp.utils.InputUtils;
 
 /**
@@ -65,7 +65,7 @@ public class DatiAnagraficiFragment extends Fragment {
         indirizzoInput.getEditText().setInputType(InputType.TYPE_NULL);
 
         MainActivity activity = ((MainActivity) getActivity());
-        UserAnagrafici userData = activity.getUserData();
+        UserAnagrafica userData = activity.userData;
         if(userData != null) {
             String cognome = userData.getCognome();
             String nome = userData.getNome();

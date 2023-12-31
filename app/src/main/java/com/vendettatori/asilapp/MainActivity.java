@@ -11,33 +11,35 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.vendettatori.asilapp.db.FirebaseDatabase;
 import com.vendettatori.asilapp.db.IHandlerDBUser;
-import com.vendettatori.asilapp.db.UserAnagrafici;
+import com.vendettatori.asilapp.db.UserAnagrafica;
+import com.vendettatori.asilapp.db.UserAnagraficaFileManager;
 
 import java.util.concurrent.Callable;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth authFireBase;
-    private FirebaseUser currentUser;
     private NavController navController;
     private FirebaseDatabase dbFireBase;
-    private UserAnagrafici userData;
 
-    private int themeId = 999999;
+    public UserAnagrafica userData;
+    public FirebaseUser currentUser;
+
+    public int themeId = AppCompatDelegate.MODE_NIGHT_UNSPECIFIED;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +47,53 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         authFireBase = FirebaseAuth.getInstance();
         dbFireBase = new FirebaseDatabase();
+        if(savedInstanceState != null) {
+            userData = savedInstanceState.getParcelable("userData");
+            currentUser = authFireBase.getCurrentUser();
+        }
+        if(themeId == AppCompatDelegate.MODE_NIGHT_UNSPECIFIED) {
+            // Set selected theme mode
+            SharedPreferences sharedPref = getBaseContext().getSharedPreferences("theme", Context.MODE_PRIVATE);
+            themeId = sharedPref.getInt("themeId", AppCompatDelegate.MODE_NIGHT_UNSPECIFIED);
+            if(themeId == AppCompatDelegate.MODE_NIGHT_UNSPECIFIED) {
+                themeId = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putInt("themeId", themeId);
+                editor.apply();
+            }
+            UiModeManager uiModeManager = (UiModeManager) getBaseContext().getSystemService(Context.UI_MODE_SERVICE);
+            uiModeManager.setNightMode(themeId);
+            AppCompatDelegate.setDefaultNightMode(themeId);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        //Retrive user
         currentUser = authFireBase.getCurrentUser();
+        if(currentUser != null) {
+            if(currentUser.isAnonymous()) {
+                userData = new UserAnagrafica();
+            }
+            else {
+                retriveUserData(currentUser.getUid());
+            }
+        }
+
+        // Set toolbar and navigator
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         Toolbar toolbar = findViewById(R.id.topAppBar);
+
         setSupportActionBar(toolbar);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment).build();
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
-        AppCompatDelegate.setDefaultNightMode(getThemeId());
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putParcelable("userData", userData);
     }
 
     @Override
@@ -98,63 +135,15 @@ public class MainActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
     }
 
-    public boolean isUserLogged() {
-        return currentUser != null;
-    }
-
     public boolean isUserLoggedComplete() {
         if(currentUser.isAnonymous()) {
             // Mock data in case of anonymous user
             if(userData == null)
-                userData = new UserAnagrafici();
+                userData = new UserAnagrafica();
             return true;
         }
         else
             return userData != null;
-    }
-
-    public UserAnagrafici getUserData() {
-        if(currentUser == null) {
-            currentUser = authFireBase.getCurrentUser();
-        }
-        if(userData == null) {
-            dbFireBase.getUser(currentUser.getUid(), new IHandlerDBUser() {
-                @Override
-                public void onSuccessSetUser() {}
-
-                @Override
-                public void onFailureSetUser(Exception e) {}
-
-                @Override
-                public void onRetrieveUser(UserAnagrafici userDataForm) {
-                    if(userDataForm != null) {
-                        userData = userDataForm;
-                        Log.i("DB_USER", "Received from DB: " + userData);
-                    }
-                    else {
-                        if(currentUser != null && currentUser.isAnonymous()) {
-                            // Fake data
-                            userData = new UserAnagrafici();
-                        }
-                        Log.w("DB_USER", "No user found");
-                    }
-                }
-
-                @Override
-                public void onErrorRetrieveUser(Exception e) {
-                    Log.e("MAIN", "Error on retriving user from DB", e);
-                    Toast.makeText(getBaseContext(), "An unexpected error accured", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        return userData;
-    }
-
-    public FirebaseUser getUserAuth() {
-        if(currentUser == null) {
-            currentUser = authFireBase.getCurrentUser();
-        }
-        return currentUser;
     }
 
     public void loginFirebase(String email, String password, Callable<Void> onComplete) {
@@ -170,7 +159,8 @@ public class MainActivity extends AppCompatActivity {
                             currentUser = authFireBase.getCurrentUser();
                             Log.i("LOGIN", "signInWithEmail:success");
 
-                            //Retrive data from DB of user
+                            //Retrive data
+                            UserAnagraficaFileManager fileManager = new UserAnagraficaFileManager(this, currentUser.getUid());
                             dbFireBase.getUser(currentUser.getUid(), new IHandlerDBUser() {
                                 @Override
                                 public void onSuccessSetUser() {}
@@ -179,10 +169,18 @@ public class MainActivity extends AppCompatActivity {
                                 public void onFailureSetUser(Exception e) {}
 
                                 @Override
-                                public void onRetrieveUser(UserAnagrafici userDataForm) {
+                                public void onRetrieveUser(UserAnagrafica userDataForm) {
                                     if(userDataForm != null) {
                                         userData = userDataForm;
-                                        Log.i("DB_USER", "Received from DB: " + userData);
+
+                                        // Save data on file
+                                        try {
+                                            fileManager.saveUserData(userDataForm);
+                                        } catch (Exception e) {
+                                            Log.e("MAIN", "Error on retrive user data", e);
+                                        }
+
+                                        Log.i("MAIN", "Received from DB: " + userData);
                                         Toast.makeText(getBaseContext(), "Logged", Toast.LENGTH_SHORT).show();
                                         navController.navigate(R.id.action_loginFragment_to_homeFragment);
                                     }
@@ -219,7 +217,8 @@ public class MainActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         currentUser = authFireBase.getCurrentUser();
-                        userData = new UserAnagrafici();
+                        userData = new UserAnagrafica();
+
                         Log.i("LOGIN", "signInAnonymously:success");
                         Toast.makeText(getBaseContext(), "Authenticated as guest.",
                                 Toast.LENGTH_SHORT).show();
@@ -277,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void registerUserData(UserAnagrafici userDataForm, Callable<Void> onComplete) {
+    public void registerUserData(UserAnagrafica userDataForm, Callable<Void> onComplete) {
         dbFireBase.setUser(currentUser.getUid(), userDataForm, new IHandlerDBUser() {
             @Override
             public void onSuccessSetUser() {
@@ -304,47 +303,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRetrieveUser(UserAnagrafici userData) {}
+            public void onRetrieveUser(UserAnagrafica userData) {}
 
             @Override
             public void onErrorRetrieveUser(Exception e) {}
-        });
-    }
-
-    public void loadUserData(Callable<Void> onUserFound, Callable<Void> onUserNotFound) {
-        dbFireBase.getUser(currentUser.getUid(), new IHandlerDBUser() {
-            @Override
-            public void onSuccessSetUser() {}
-
-            @Override
-            public void onFailureSetUser(Exception e) {}
-
-            @Override
-            public void onRetrieveUser(UserAnagrafici userDataDb) {
-                if(userDataDb != null) {
-                    userData = userDataDb;
-                    Log.i("MAIN", "Success on fetch from DB");
-                    try {
-                        onUserFound.call();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                else {
-                    Log.w("MAIN", "No user found");
-                    try {
-                        onUserNotFound.call();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-
-            @Override
-            public void onErrorRetrieveUser(Exception e) {
-                Log.e("MAIN", "Error on fetch from DB", e);
-                Toast.makeText(getBaseContext(), "An unexpected error accured", Toast.LENGTH_SHORT).show();
-            }
         });
     }
 
@@ -360,25 +322,56 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    public int getThemeId() {
-        if(themeId == 999999) {
-            SharedPreferences sharedPref = getBaseContext().getSharedPreferences("theme", Context.MODE_PRIVATE);
-            themeId = sharedPref.getInt("themeId", 999999);
-            if(themeId == 999999) {
-                themeId = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putInt("themeId", themeId);
-                editor.apply();
-            }
-        }
-        return themeId;
-    }
-
     public void setThemeId(int themeId) {
         this.themeId = themeId;
+        UiModeManager uiModeManager = (UiModeManager) getBaseContext().getSystemService(Context.UI_MODE_SERVICE);
+        uiModeManager.setNightMode(themeId);
         SharedPreferences sharedPref = getBaseContext().getSharedPreferences("theme", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("themeId", themeId);
         editor.apply();
+        AppCompatDelegate.setDefaultNightMode(themeId);
+    }
+
+    private void retriveUserData(String id) {
+        UserAnagraficaFileManager fileManager = new UserAnagraficaFileManager(this, id);
+        UserAnagrafica userDataFile;
+        try {
+            userDataFile = fileManager.retriveUserData();
+            if(userDataFile == null) {
+                dbFireBase.getUser(currentUser.getUid(), new IHandlerDBUser() {
+                    @Override
+                    public void onSuccessSetUser() {}
+
+                    @Override
+                    public void onFailureSetUser(Exception e) {}
+
+                    @Override
+                    public void onRetrieveUser(UserAnagrafica userDataForm) {
+                        if(userDataForm != null) {
+                            try {
+                                userData = userDataForm;
+                                fileManager.saveUserData(userDataForm);
+                            } catch (Exception e) {
+                                Log.e("MAIN", "Error on save user data on file", e);
+                            }
+                            Log.i("MAIN", "Received from DB: " + userData);
+                        }
+                        else {
+                            Log.w("MAIN", "No user found");
+                        }
+                    }
+
+                    @Override
+                    public void onErrorRetrieveUser(Exception e) {
+                        Log.e("MAIN", "Error on retriving user from DB", e);
+                    }
+                });
+            }
+            else
+                userData = userDataFile;
+        } catch (Exception e) {
+            Log.e("MAIN", "Error on retrive user data", e);
+        }
     }
 }

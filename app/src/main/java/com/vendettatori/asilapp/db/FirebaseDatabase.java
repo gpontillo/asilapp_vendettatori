@@ -12,7 +12,7 @@ public class FirebaseDatabase {
         db = FirebaseFirestore.getInstance();
     }
 
-    public void setUser(String userId, @NonNull UserAnagrafici user, IHandlerDBUser handler) {
+    public void setUser(String userId, @NonNull UserAnagrafica user, IHandlerDBUser handler) {
         db.collection("users").document(userId)
                 .set(user)
                 .addOnSuccessListener(documentReference -> {
@@ -28,7 +28,7 @@ public class FirebaseDatabase {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-                        UserAnagrafici userData = document.toObject(UserAnagrafici.class);
+                        UserAnagrafica userData = document.toObject(UserAnagrafica.class);
                         handler.onRetrieveUser(userData);
                     } else {
                         handler.onErrorRetrieveUser(new RuntimeException("Accessing unknown user"));
