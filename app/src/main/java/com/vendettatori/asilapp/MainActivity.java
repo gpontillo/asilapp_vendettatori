@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             currentUser = authFireBase.getCurrentUser();
         }
         if(themeId == AppCompatDelegate.MODE_NIGHT_UNSPECIFIED) {
-            // Set selected theme mode
+            // Get selected theme mode
             SharedPreferences sharedPref = getBaseContext().getSharedPreferences("theme", Context.MODE_PRIVATE);
             themeId = sharedPref.getInt("themeId", AppCompatDelegate.MODE_NIGHT_UNSPECIFIED);
             if(themeId == AppCompatDelegate.MODE_NIGHT_UNSPECIFIED) {
@@ -61,15 +61,18 @@ public class MainActivity extends AppCompatActivity {
                 editor.putInt("themeId", themeId);
                 editor.apply();
             }
-            UiModeManager uiModeManager = (UiModeManager) getBaseContext().getSystemService(Context.UI_MODE_SERVICE);
-            uiModeManager.setNightMode(themeId);
-            AppCompatDelegate.setDefaultNightMode(themeId);
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        // Set selected theme mode
+        UiModeManager uiModeManager = (UiModeManager) getBaseContext().getSystemService(Context.UI_MODE_SERVICE);
+        uiModeManager.setNightMode(themeId);
+        AppCompatDelegate.setDefaultNightMode(themeId);
+
         //Retrive user
         currentUser = authFireBase.getCurrentUser();
         if(currentUser != null) {
