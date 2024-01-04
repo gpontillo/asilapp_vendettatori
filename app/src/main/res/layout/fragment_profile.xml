@@ -97,6 +97,30 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <RadioGroup
+        android:id="@+id/languageGroup"
+        android:checkedButton="@+id/English"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintTop_toBottomOf="@id/themeLayoutProfile">
+        <RadioButton
+            android:id="@+id/English"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:text="English"/>
+        <RadioButton
+            android:id="@+id/Italiano"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Italiano"/>
+    </RadioGroup>
+
     <Button
         android:id="@+id/logoutProfile"
         style="@style/Widget.Material3.Button.ElevatedButton"
@@ -107,6 +131,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/themeLayoutProfile"
+        android:layout_marginTop="50dp"
         app:layout_constraintVertical_bias="0.19999999" />
 
 
