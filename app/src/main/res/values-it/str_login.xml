@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="loginButton">Accedi</string>
+    <string name="emailText">Email</string>
+    <string name="emailInput">email@email.com</string>
+    <string name="enter_as_guestButton">Entra come ospite</string>
+    <string name="passwordText">Password</string>
+    <string name="passwordInput">Password</string>
+    <string name="registerButton">Registrati</string>
+    <string name="loginTitle">Accedi</string>
+</resources>
