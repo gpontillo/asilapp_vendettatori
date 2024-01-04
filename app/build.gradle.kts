@@ -60,6 +60,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.6")
     implementation("androidx.navigation:navigation-ui:2.7.6")
 
-    // Graphs https://www.anychart.com/technical-integrations/samples/android-charts/
-    implementation("com.github.AnyChart:AnyChart-Android:1.1.5")
+    // Graphs https://weeklycoding.com/mpandroidchart/
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
