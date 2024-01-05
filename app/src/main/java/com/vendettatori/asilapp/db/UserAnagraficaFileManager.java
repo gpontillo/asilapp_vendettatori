@@ -40,6 +40,16 @@ public class UserAnagraficaFileManager {
             return null;
     }
 
+    public boolean deleteFile() throws IOException, ClassNotFoundException {
+        if(checkIfFileExist()) {
+            File dir = context.getFilesDir();
+            File file = new File(dir, filename);
+            return file.delete();
+        }
+        else
+            return false;
+    }
+
     public boolean checkIfFileExist() {
         File file = new File(context.getFilesDir(),filename);
         return file.exists();

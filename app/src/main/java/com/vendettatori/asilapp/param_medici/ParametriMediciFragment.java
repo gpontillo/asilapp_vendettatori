@@ -6,23 +6,36 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.text.InputType;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.Timestamp;
+import com.vendettatori.asilapp.MainActivity;
 import com.vendettatori.asilapp.R;
+import com.vendettatori.asilapp.db.UserAnagrafica;
 import com.vendettatori.asilapp.utils.GraphFactory;
+import com.vendettatori.asilapp.utils.InputUtils;
 
 public class ParametriMediciFragment extends Fragment {
 
+    TextInputLayout pesoInput;
+    TextInputLayout altezzaInput;
     LineChart contapassiChart;
     LineChart pressioneChart;
     LineChart freqCardiacaChart;
     LineChart temperaturaChart;
     LineChart glicemiaChart;
+    Button buttonConfirmChanges;
+    ProgressBar loaderDatiGenerali;
+    boolean loading = false;
 
     public ParametriMediciFragment() {
     }
@@ -47,8 +60,11 @@ public class ParametriMediciFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextInputLayout pesoInput = view.findViewById(R.id.pesoLayout);
-        TextInputLayout altezzaInput = view.findViewById(R.id.altezzaLayout);
+
+        pesoInput = view.findViewById(R.id.pesoLayout);
+        altezzaInput = view.findViewById(R.id.altezzaLayout);
+        buttonConfirmChanges = view.findViewById(R.id.confChangesButton);
+        loaderDatiGenerali = view.findViewById(R.id.progressBarDatiGenerali);
 
         contapassiChart = view.findViewById(R.id.contapassiChartView);
         pressioneChart = view.findViewById(R.id.pressioneChartView);
@@ -62,10 +78,90 @@ public class ParametriMediciFragment extends Fragment {
         GraphFactory.createMockGraph(temperaturaChart, 35, 37, "C°/m");
         GraphFactory.createMockGraph(glicemiaChart, 70, 80, "(mg * m)/dl");
 
-        pesoInput.getEditText().setInputType(InputType.TYPE_NULL);
-        altezzaInput.getEditText().setInputType(InputType.TYPE_NULL);
+        float peso = ((MainActivity) getActivity()).userData.getPeso();
+        float altezza = ((MainActivity) getActivity()).userData.getAltezza();
 
-        pesoInput.getEditText().setText("70");
-        altezzaInput.getEditText().setText("180");
+        pesoInput.getEditText().setText(peso == -1 ? null : Float.toString(peso));
+        altezzaInput.getEditText().setText(altezza == -1 ? null : Float.toString(altezza));
+
+        MainActivity activity = (MainActivity) getActivity();
+
+        buttonConfirmChanges.setOnClickListener(v -> {
+            if(validateForm()) {
+                float pesoFromInput = InputUtils.parseStringInputFloat(pesoInput.getEditText().getText().toString());
+                float altezzaFromInput = InputUtils.parseStringInputFloat(altezzaInput.getEditText().getText().toString());
+
+                UserAnagrafica newUserData = activity.userData.cloneUser();
+                newUserData.setPeso(pesoFromInput);
+                newUserData.setAltezza(altezzaFromInput);
+
+                toggleLoading();
+                activity.saveNewUserData(newUserData, () -> {
+                    toggleLoading();
+                    return null;
+                });
+            }
+        });
+
+        pesoInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                pesoInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        altezzaInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                altezzaInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    public boolean validateForm() {
+        if(pesoInput != null && altezzaInput != null) {
+            String pesoStr = pesoInput.getEditText().getText().toString();
+            String altezzaStr = altezzaInput.getEditText().getText().toString();
+
+            if(!InputUtils.isValidNumber(pesoStr))
+                pesoInput.setError("Weight is invalid");
+            if(!InputUtils.isValidNumber(altezzaStr))
+                altezzaInput.setError("Height is invalid");
+
+            return pesoInput.getError() == null && altezzaInput.getError() == null;
+        }
+        return false;
+    }
+
+    public void toggleLoading() {
+        loading = !loading;
+        if(loading) {
+            pesoInput.setVisibility(View.GONE);
+            altezzaInput.setVisibility(View.GONE);
+            buttonConfirmChanges.setVisibility(View.GONE);
+            loaderDatiGenerali.setVisibility(View.VISIBLE);
+        }
+        else {
+            pesoInput.setVisibility(View.VISIBLE);
+            altezzaInput.setVisibility(View.VISIBLE);
+            buttonConfirmChanges.setVisibility(View.VISIBLE);
+            loaderDatiGenerali.setVisibility(View.GONE);
+        }
     }
 }

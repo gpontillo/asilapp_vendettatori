@@ -72,24 +72,25 @@
         android:id="@+id/confloginButtonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="180dp"
         android:text="@string/loginButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/registerButtonLogin" />
+        app:layout_constraintStart_toEndOf="@+id/registerButtonLogin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.70" />
 
     <Button
         android:id="@+id/registerButtonLogin"
         style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="180dp"
         android:text="@string/registerButton"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/confloginButtonLogin"
         app:layout_constraintEnd_toStartOf="@+id/confloginButtonLogin"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/confloginButtonLogin" />
 
     <TextView
         android:id="@+id/guestText"
@@ -100,26 +101,23 @@
         android:text="@string/enter_as_guestButton"
         android:textAlignment="textStart"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.7888"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/confloginButtonLogin"
+        app:layout_constraintStart_toStartOf="@+id/confloginButtonLogin"
         app:layout_constraintTop_toBottomOf="@+id/confloginButtonLogin" />
 
     <TextView
         android:id="@+id/forgotText"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
         android:clickable="true"
         android:text="Forgot your password?"
         android:textAlignment="textStart"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/confloginButtonLogin"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/passwordLayoutLogin"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordLayoutLogin"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintStart_toStartOf="@+id/passwordLayoutLogin"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLayoutLogin" />
 
     <ProgressBar
         android:id="@+id/progressBarLogin"

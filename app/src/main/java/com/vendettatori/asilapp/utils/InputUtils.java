@@ -26,6 +26,30 @@ public class InputUtils {
         return (!TextUtils.isEmpty(target) && target.length() <= 10);
     }
 
+    public static boolean isValidNumber(String target) {
+        if(!TextUtils.isEmpty(target)) {
+            try {
+                Float.parseFloat(target);
+                return true;
+            }
+            catch(NumberFormatException nfe) {
+                return false;
+            }
+
+        }
+        else
+            return false;
+    }
+
+    public static float parseStringInputFloat(String target) {
+        try {
+            return Float.parseFloat(target);
+        }
+        catch(NumberFormatException nfe) {
+            return -1;
+        }
+    }
+
     public static String formatStringFromTimestamp(Timestamp target) {
         Date date = target.toDate();
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

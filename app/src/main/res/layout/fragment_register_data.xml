@@ -24,7 +24,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/cognomeLayoutAnagrafica"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -50,7 +49,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nomeLayoutAnagrafica"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -76,7 +74,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/telefonoLayoutAnagrafica"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -106,7 +103,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dataLayoutAnagrafica"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -132,7 +128,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/luogoLayoutAnagrafica"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -155,7 +150,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/indirizzoLayoutAnagrafica"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -179,6 +173,56 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pesoLayoutRegister"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Weight"
+            android:inputType="number"
+            app:suffixText="kg"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/indirizzoLayoutAnagrafica"
+            app:placeholderText="Weight"
+            app:startIconDrawable="@drawable/peso_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pesoInputRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/altezzaLayoutRegister"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Height"
+            android:inputType="number"
+            app:suffixText="cm"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pesoLayoutRegister"
+            app:placeholderText="Height"
+            app:startIconDrawable="@drawable/altezza_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/altezzaInputRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/confButtonRegisterData"
             android:layout_width="wrap_content"
@@ -189,7 +233,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/indirizzoLayoutAnagrafica" />
+            app:layout_constraintTop_toBottomOf="@+id/altezzaLayoutRegister" />
 
         <ProgressBar
             android:id="@+id/progressBarRegisterData"
@@ -201,7 +245,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/indirizzoLayoutAnagrafica"
+            app:layout_constraintTop_toBottomOf="@+id/altezzaLayoutRegister"
             app:layout_constraintVertical_bias="0.193" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,7 @@ import com.vendettatori.asilapp.db.IHandlerDBUser;
 import com.vendettatori.asilapp.db.UserAnagrafica;
 import com.vendettatori.asilapp.db.UserAnagraficaFileManager;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 
 public class MainActivity extends AppCompatActivity {
@@ -152,11 +153,6 @@ public class MainActivity extends AppCompatActivity {
     public void loginFirebase(String email, String password, Callable<Void> onComplete) {
         authFireBase.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                        try {
-                            onComplete.call();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             currentUser = authFireBase.getCurrentUser();
@@ -173,6 +169,13 @@ public class MainActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onRetrieveUser(UserAnagrafica userDataForm) {
+                                    // Call onComplete callback
+                                    try {
+                                        onComplete.call();
+                                    } catch (Exception ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+
                                     if(userDataForm != null) {
                                         userData = userDataForm;
 
@@ -196,11 +199,25 @@ public class MainActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onErrorRetrieveUser(Exception e) {
+                                    // Call onComplete callback
+                                    try {
+                                        onComplete.call();
+                                    } catch (Exception ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+
                                     Log.e("MAIN", "Error on retriving user from DB", e);
                                     Toast.makeText(getBaseContext(), "An unexpected error accured", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
+                            // Call onComplete callback
+                            try {
+                                onComplete.call();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+
                             // If sign in fails, display a message to the user.
                             Log.w("LOGIN", "signInWithEmail:failure", task.getException());
                             Toast.makeText(getBaseContext(), "Error on login. Retry", Toast.LENGTH_SHORT).show();
@@ -314,9 +331,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logout() {
+        UserAnagraficaFileManager fileManager = new UserAnagraficaFileManager(this, currentUser.getUid());
         authFireBase.signOut();
         currentUser = null;
         userData = null;
+        try {
+            fileManager.deleteFile();
+        } catch (Exception e) {
+            Log.e("MAIN", "Error on delete user data", e);
+        }
         navController.navigate(R.id.loginFragment, null, new NavOptions.Builder()
                 .setEnterAnim(android.R.animator.fade_in)
                 .setExitAnim(android.R.animator.fade_out)
@@ -376,5 +399,48 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("MAIN", "Error on retrive user data", e);
         }
+    }
+
+    public void saveNewUserData(UserAnagrafica newUserData, Callable<Void> onComplete) {
+        UserAnagraficaFileManager fileManager = new UserAnagraficaFileManager(this, currentUser.getUid());
+        dbFireBase.setUser(currentUser.getUid(), newUserData, new IHandlerDBUser() {
+            @Override
+            public void onSuccessSetUser() {
+                try {
+                    onComplete.call();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                Log.i("DB_USER", "Saved on DB: " + userData);
+                userData = newUserData;
+
+                try {
+                    fileManager.saveUserData(newUserData);
+                } catch (Exception e) {
+                    Log.e("MAIN", "Error on retrive user data", e);
+                }
+
+                Toast.makeText(getBaseContext(), "Data updated",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailureSetUser(Exception e) {
+                try {
+                    onComplete.call();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                Log.e("DB_USER", "Error on saving data on DB", e);
+            }
+
+            @Override
+            public void onRetrieveUser(UserAnagrafica userData) {}
+
+            @Override
+            public void onErrorRetrieveUser(Exception e) {}
+        });
     }
 }

@@ -45,6 +45,8 @@ public class RegisterDataFragment extends AuthFragment {
     TextInputLayout dataNascitaInput;
     TextInputLayout luogoNascitaInput;
     TextInputLayout indirizzoInput;
+    TextInputLayout pesoInput;
+    TextInputLayout altezzaInput;
     Button buttonConfirm;
     ProgressBar loader;
 
@@ -83,6 +85,8 @@ public class RegisterDataFragment extends AuthFragment {
         dataNascitaInput = view.findViewById(R.id.dataLayoutAnagrafica);
         luogoNascitaInput = view.findViewById(R.id.luogoLayoutAnagrafica);
         indirizzoInput = view.findViewById(R.id.indirizzoLayoutAnagrafica);
+        pesoInput = view.findViewById(R.id.pesoLayoutRegister);
+        altezzaInput = view.findViewById(R.id.altezzaLayoutRegister);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view1, year, month, dayOfMonth) -> {
             LocalDate localDate = LocalDate.of(year, month, dayOfMonth);
@@ -99,13 +103,16 @@ public class RegisterDataFragment extends AuthFragment {
                 String cognome = cognomeInput.getEditText().getText().toString();
                 String nome = nomeInput.getEditText().getText().toString();
                 String telefono = telefonoInput.getEditText().getText().toString();
+                String luogoNascita = luogoNascitaInput.getEditText().getText().toString();
+                String indirizzo = indirizzoInput.getEditText().getText().toString();
+
+                float peso = InputUtils.parseStringInputFloat(pesoInput.getEditText().getText().toString());
+                float altezza = InputUtils.parseStringInputFloat(altezzaInput.getEditText().getText().toString());
 
                 String dataString = dataNascitaInput.getEditText().getText().toString();
                 Timestamp dataNascita = InputUtils.formatTimestampFromString(dataString);
 
-                String luogoNascita = luogoNascitaInput.getEditText().getText().toString();
-                String indirizzo = indirizzoInput.getEditText().getText().toString();
-                onConfirmRegisterData(cognome, nome, telefono, dataNascita, luogoNascita, indirizzo);
+                onConfirmRegisterData(cognome, nome, telefono, dataNascita, luogoNascita, indirizzo, peso, altezza);
             }
         });
 
@@ -196,11 +203,41 @@ public class RegisterDataFragment extends AuthFragment {
             public void afterTextChanged(Editable s) {
             }
         });
+
+        pesoInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                pesoInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        altezzaInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                altezzaInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
-    public void onConfirmRegisterData(String cognome, String nome, String telefono, Timestamp dataNascita, String luogoNascita, String indirizzo) {
+    public void onConfirmRegisterData(String cognome, String nome, String telefono, Timestamp dataNascita, String luogoNascita, String indirizzo, float peso, float altezza) {
         toggleLoading();
-        UserAnagrafica userDataForm = new UserAnagrafica(nome, cognome, telefono, dataNascita, luogoNascita, indirizzo);
+        UserAnagrafica userDataForm = new UserAnagrafica(nome, cognome, telefono, dataNascita, luogoNascita, indirizzo, peso, altezza);
         ((MainActivity) getActivity()).registerUserData(userDataForm, () -> {
             toggleLoading();
             return null;
@@ -208,13 +245,16 @@ public class RegisterDataFragment extends AuthFragment {
     }
 
     public boolean validateForm() {
-        if(cognomeInput != null && nomeInput != null && telefonoInput != null && dataNascitaInput != null && luogoNascitaInput != null && indirizzoInput != null) {
+        if(cognomeInput != null && nomeInput != null && telefonoInput != null && dataNascitaInput != null && luogoNascitaInput != null && indirizzoInput != null && pesoInput != null && altezzaInput != null) {
             String cognome = cognomeInput.getEditText().getText().toString();
             String nome = nomeInput.getEditText().getText().toString();
             String telefono = telefonoInput.getEditText().getText().toString();
             String dataNascita = dataNascitaInput.getEditText().getText().toString();
             String luogoNascita = luogoNascitaInput.getEditText().getText().toString();
             String indirizzo = indirizzoInput.getEditText().getText().toString();
+
+            String pesoStr = pesoInput.getEditText().getText().toString();
+            String altezzaStr = altezzaInput.getEditText().getText().toString();
 
             if(TextUtils.isEmpty(cognome))
                 cognomeInput.setError("Surname is required");
@@ -228,8 +268,12 @@ public class RegisterDataFragment extends AuthFragment {
                 telefonoInput.setError("Birth place is required");
             if(TextUtils.isEmpty(indirizzo))
                 telefonoInput.setError("Residence address is required");
+            if(!TextUtils.isEmpty(pesoStr) && !InputUtils.isValidNumber(pesoStr))
+                pesoInput.setError("Weight is invalid");
+            if(!TextUtils.isEmpty(altezzaStr) && !InputUtils.isValidNumber(altezzaStr))
+                altezzaInput.setError("Height is invalid");
 
-            return cognomeInput.getError() == null && nomeInput.getError() == null && telefonoInput.getError() == null && dataNascitaInput.getError() == null && luogoNascitaInput.getError() == null && indirizzoInput.getError() == null;
+            return cognomeInput.getError() == null && nomeInput.getError() == null && telefonoInput.getError() == null && dataNascitaInput.getError() == null && luogoNascitaInput.getError() == null && indirizzoInput.getError() == null && pesoInput.getError() == null && altezzaInput.getError() == null;
         }
         return false;
     }
