@@ -31,4 +31,3 @@ render.experimental.xml
 
 # Android Profiling
 *.hprof
-.idea/gradle.xml
