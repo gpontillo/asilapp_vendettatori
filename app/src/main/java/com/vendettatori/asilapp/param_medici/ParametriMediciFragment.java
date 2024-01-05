@@ -1,9 +1,20 @@
 package com.vendettatori.asilapp.param_medici;
 
+import static android.content.Context.SENSOR_SERVICE;
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,22 +22,29 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.textfield.TextInputLayout;
+import com.vendettatori.asilapp.MainActivity;
 import com.vendettatori.asilapp.R;
 import com.vendettatori.asilapp.utils.MockGraphFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParametriMediciFragment extends Fragment {
+public class ParametriMediciFragment extends Fragment implements SensorEventListener {
 
     LineChart contapassiChart;
     LineChart pressioneChart;
     LineChart freqCardiacaChart;
     LineChart temperaturaChart;
     LineChart glicemiaChart;
+
+    //Step-counter sensor variables
+    private SensorManager sensorManager = null;
+    private Sensor stepCounter = null;
+    private int steps = 0;
 
     public ParametriMediciFragment() {
     }
@@ -38,7 +56,10 @@ public class ParametriMediciFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        sensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);
+        stepCounter = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
     }
 
     @Override
@@ -72,4 +93,29 @@ public class ParametriMediciFragment extends Fragment {
         pesoInput.getEditText().setText("70");
         altezzaInput.getEditText().setText("180");
     }
+
+    //Methods relative to Step-counter sensor
+    public void onResume()  {
+        super.onResume();
+        if(stepCounter != null) {
+            sensorManager.registerListener(this, stepCounter, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
+
+    public void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            steps = (int) event.values[0]; // Valore da far tornare al grafico
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
 }

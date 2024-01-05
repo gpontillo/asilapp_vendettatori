@@ -5,17 +5,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.AlertDialog;
 import android.app.UiModeManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     public FirebaseUser currentUser;
 
     public int themeId = AppCompatDelegate.MODE_NIGHT_UNSPECIFIED;
+
+    private static final int REQUEST_CODE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -376,5 +384,64 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("MAIN", "Error on retrive user data", e);
         }
+    }
+
+
+
+
+    private void requestRunTimePermissions() {
+        if (ActivityCompat.checkSelfPermission(
+                this, android.Manifest.permission.ACTIVITY_RECOGNITION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "You have granted the Step-counter permissions", Toast.LENGTH_SHORT).show();
+        } else if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this, android.Manifest.permission.ACTIVITY_RECOGNITION)) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage("This app use permission to count your steps, please enable it if you want to want to know your steps")
+                    .setTitle("Informative message")
+                    .setCancelable(false)
+                    .setNegativeButton("Cancel", ((dialog, which) -> dialog.dismiss()))
+                    .setPositiveButton("Ok", (dialog, which) -> {
+                        ActivityCompat.requestPermissions(this,
+                                new String[] { android.Manifest.permission.ACTIVITY_RECOGNITION },
+                                REQUEST_CODE);
+                        dialog.dismiss();
+                    });
+            alert.show();
+        } else {
+            // You can directly ask for the permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[] { android.Manifest.permission.ACTIVITY_RECOGNITION },
+                    REQUEST_CODE);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0 &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "You have granted the Step-counter permissions", Toast.LENGTH_SHORT).show();
+        }  else if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                this, android.Manifest.permission.ACTIVITY_RECOGNITION)){
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage("This app use permission to count your steps, please enable it if you want to want to know your steps")
+                    .setTitle("Informative message")
+                    .setCancelable(false)
+                    .setNegativeButton("Cancel", ((dialog, which) -> dialog.dismiss()))
+                    .setPositiveButton("Ok", (dialog, which) -> {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        dialog.dismiss();
+                    });
+
+        } else {
+            requestRunTimePermissions();
+        }
+
     }
 }
