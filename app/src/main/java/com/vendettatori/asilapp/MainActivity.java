@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        requestRunTimePermissions();
         authFireBase = FirebaseAuth.getInstance();
         dbFireBase = new FirebaseDatabase();
         if(savedInstanceState != null) {
@@ -452,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void requestRunTimePermissions() {
+    public void requestRunTimePermissions() {
         if (ActivityCompat.checkSelfPermission(
                 this, android.Manifest.permission.ACTIVITY_RECOGNITION) ==
                 PackageManager.PERMISSION_GRANTED) {
@@ -480,31 +481,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (grantResults.length > 0 &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "You have granted the Step-counter permissions", Toast.LENGTH_SHORT).show();
-        }  else if (!ActivityCompat.shouldShowRequestPermissionRationale(
-                this, android.Manifest.permission.ACTIVITY_RECOGNITION)){
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setMessage("This app use permission to count your steps, please enable it if you want to want to know your steps")
-                    .setTitle("Informative message")
-                    .setCancelable(false)
-                    .setNegativeButton("Cancel", ((dialog, which) -> dialog.dismiss()))
-                    .setPositiveButton("Ok", (dialog, which) -> {
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", getPackageName(), null);
-                        intent.setData(uri);
-                        dialog.dismiss();
-                    });
-
-        } else {
-            requestRunTimePermissions();
-        }
-
-    }
 }
