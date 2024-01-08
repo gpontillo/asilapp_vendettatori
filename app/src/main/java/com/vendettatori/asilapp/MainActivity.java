@@ -48,13 +48,15 @@ public class MainActivity extends AppCompatActivity {
 
     public int themeId = AppCompatDelegate.MODE_NIGHT_UNSPECIFIED;
 
+    public boolean permissionStepCounter = false;
+
     private static final int REQUEST_CODE = 10;
+    private Callable<Void> notifyFragmentPermission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        requestRunTimePermissions();
         authFireBase = FirebaseAuth.getInstance();
         dbFireBase = new FirebaseDatabase();
         if(savedInstanceState != null) {
@@ -453,15 +455,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void requestRunTimePermissions() {
-        if (ActivityCompat.checkSelfPermission(
+    public void requestRunTimePermissions(Callable<Void> notifyFragmentPermission) {
+        this.notifyFragmentPermission = notifyFragmentPermission;
+
+        if (this.permissionStepCounter || ActivityCompat.checkSelfPermission(
                 this, android.Manifest.permission.ACTIVITY_RECOGNITION) ==
                 PackageManager.PERMISSION_GRANTED) {
+            this.permissionStepCounter = true;
             Toast.makeText(this, "You have granted the Step-counter permissions", Toast.LENGTH_SHORT).show();
         } else if (ActivityCompat.shouldShowRequestPermissionRationale(
                 this, android.Manifest.permission.ACTIVITY_RECOGNITION)) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setMessage("This app use permission to count your steps, please enable it if you want to want to know your steps")
+            alert.setMessage("This app use permission to count your steps. This help us to give you a rappresentation of your total physical activity. If you disabilitate this feature, this page could not show all data.")
                     .setTitle("Informative message")
                     .setCancelable(false)
                     .setNegativeButton("Cancel", ((dialog, which) -> dialog.dismiss()))
@@ -481,4 +486,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    this.permissionStepCounter = true;
+                } else {
+                    this.permissionStepCounter = false;
+                }
+                break;
+        }
+
+        if(notifyFragmentPermission != null) {
+            try {
+                notifyFragmentPermission.call();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }

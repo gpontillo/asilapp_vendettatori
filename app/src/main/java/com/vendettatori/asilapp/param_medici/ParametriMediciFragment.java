@@ -14,6 +14,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -50,6 +51,7 @@ public class ParametriMediciFragment extends Fragment implements SensorEventList
     LineChart glicemiaChart;
     Button buttonConfirmChanges;
     ProgressBar loaderDatiGenerali;
+    CardView contapassiCard;
     boolean loading = false;
 
     //Step-counter sensor variables
@@ -68,8 +70,16 @@ public class ParametriMediciFragment extends Fragment implements SensorEventList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);
-        stepCounter = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        MainActivity activity = (MainActivity) getActivity();
+        if(activity.permissionStepCounter) {
+            setupSensor();
+        }
+        else {
+            activity.requestRunTimePermissions(() -> {
+                setupSensor();
+                return null;
+            });
+        }
     }
 
     @Override
@@ -82,6 +92,7 @@ public class ParametriMediciFragment extends Fragment implements SensorEventList
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        contapassiCard = view.findViewById(R.id.contapassiCardView);
 
         pesoInput = view.findViewById(R.id.pesoLayout);
         altezzaInput = view.findViewById(R.id.altezzaLayout);
@@ -94,7 +105,14 @@ public class ParametriMediciFragment extends Fragment implements SensorEventList
         temperaturaChart = view.findViewById(R.id.temperaturaChartView);
         glicemiaChart = view.findViewById(R.id.glicemiaChartView);
 
-        GraphFactory.createMockGraph(contapassiChart, 100, 1000, "Steps/m");
+        if(contapassiCard != null) {
+            if (stepCounter == null && !((MainActivity) getActivity()).permissionStepCounter) {
+                contapassiCard.setVisibility(View.GONE);
+            } else {
+                contapassiCard.setVisibility(View.VISIBLE);
+            }
+        }
+
         GraphFactory.createMockGraph(pressioneChart, 80, 90, "bar/m");
         GraphFactory.createMockGraph(freqCardiacaChart, 60, 100, "battiti/m");
         GraphFactory.createMockGraph(temperaturaChart, 35, 37, "C°/m");
@@ -197,7 +215,9 @@ public class ParametriMediciFragment extends Fragment implements SensorEventList
 
     public void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(this);
+        if(stepCounter != null) {
+            sensorManager.unregisterListener(this);
+        }
     }
 
     @Override
@@ -209,7 +229,19 @@ public class ParametriMediciFragment extends Fragment implements SensorEventList
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
 
+    private void setupSensor() {
+        sensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);
+        stepCounter = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+
+        if(contapassiCard != null) {
+            if (stepCounter == null && !((MainActivity) getActivity()).permissionStepCounter) {
+                contapassiCard.setVisibility(View.GONE);
+            } else {
+                contapassiCard.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
 }
