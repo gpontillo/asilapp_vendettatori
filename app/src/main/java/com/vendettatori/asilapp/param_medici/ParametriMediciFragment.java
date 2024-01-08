@@ -76,7 +76,8 @@ public class ParametriMediciFragment extends Fragment implements SensorEventList
         }
         else {
             activity.requestRunTimePermissions(() -> {
-                setupSensor();
+                if(activity.permissionStepCounter)
+                    setupSensor();
                 return null;
             });
         }

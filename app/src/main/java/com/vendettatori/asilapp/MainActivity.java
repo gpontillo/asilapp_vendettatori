@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean permissionStepCounter = false;
 
     private static final int REQUEST_CODE = 10;
+
+    // Callback to notify the fragment about the changes of permissions
     private Callable<Void> notifyFragmentPermission;
 
     @Override
